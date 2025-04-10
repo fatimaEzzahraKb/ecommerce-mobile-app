@@ -11,7 +11,7 @@ const sequelize = new Sequelize(
 function initDb(){
  sequelize.authenticate()
  .then(()=>console.log("Connexion à la DB réussite"))
- .catch(()=>console.log("Echec de connexion:",error))
+ .catch((error)=>console.log("Echec de connexion:",error))
 }
 
 module.exports = {sequelize, initDb}
