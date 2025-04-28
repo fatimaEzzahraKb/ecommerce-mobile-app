@@ -6,6 +6,7 @@ require('dotenv').config();
 var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var categoryRouter = require('./routes/categories');
 require('./models/Category.model');
 const { initDb } = require('./config/db');
 
@@ -21,5 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/categories',categoryRouter);
 
 module.exports = app;

@@ -16,7 +16,7 @@ async function getCategories(req,res) {
 
 async function addCategory(req,res){
  try{
-  const nom= req.body;
+  const nom= req.body.nom;
   const category = await Category.create({
    nom
   })
@@ -30,7 +30,7 @@ async function addCategory(req,res){
 async function deleteCategory(req,res){
  try{
   const id = req.params.id;
-  const category =await Category.findOne({where:id});
+  const category =await Category.findOne({where:{id}});
   if(!category){
    return res.status(404).send({message:"Categgory Not Found"});
   }
@@ -45,16 +45,17 @@ async function deleteCategory(req,res){
 async function updateCategory(req,res){
  try{
   const id = req.params.id;
-  const category = Category.findOne({where:id});
+  const category = await Category.findOne({where:{id:id}});
   if(!category){
    res.status(404).send({message:"Category not found"});
   }
-  category.nom = req.body.nom;
-  res.status(200).send({message:"Category has been updated successfully"});
+   category.nom = req.body.nom;
+   res.status(200).send({message:"Category has been updated successfully",cat:category});
+  
  }
- catch(error){
+ catch (error) {
   console.log("Error while updatng Category",error);
-  res.status(500).send({error:error});
+  res.status(500).send ({error:error});
  }
 }
 
