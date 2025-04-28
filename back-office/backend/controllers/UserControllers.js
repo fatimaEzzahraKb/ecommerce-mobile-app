@@ -14,7 +14,7 @@ async function getUsers(req,res) {
 async function editUser(req,res){
  try{
   const id = req.params.id;
-  const user = await User.findOne({where:{id:id}});
+  const user = await User.findOne({where:{id}});
   if(!user){
    res.status(404).send("Utilisateur non trouvé");
   }
@@ -30,7 +30,7 @@ async function updateUser(req,res){
  try{
   const id= req.params.id
   const updatedData = req.body
-  const user = await User.findOne({where:{id:id}});
+  const user = await User.findOne({where:{id}});
   if(!user){
    res.status(404).send('Utilisateur non trouvé');
   }
@@ -46,12 +46,12 @@ async function updateUser(req,res){
 async function deleteUser(req,res){
  try{
   const id = req.params.id
-  const user = await User.findOne({where:{id:id}})
+  const user = await User.findOne({where:{id}})
   if(!user){
    return res.status(404).send("Utilisateur non trouvé");
   }
   await user.destroy();
-  res.status(200).send("Utilisateur bien supprimé");
+   res.status(200).send("Utilisateur bien supprimé");
  }
  catch(error){
   console.log("Erreur lors de suppression de l'utilisateur",error);
