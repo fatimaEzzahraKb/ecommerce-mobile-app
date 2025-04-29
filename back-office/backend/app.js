@@ -8,6 +8,9 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
 require('./models/Category.model');
+require('./models/Books.model');
+require('./models/cartItems.model');
+require('./models/book_category.model');
 const { initDb } = require('./config/db');
 
 
