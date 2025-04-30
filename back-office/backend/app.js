@@ -7,7 +7,8 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
-require('./models/Category.model');
+var orderRouter = require('./routes/orders');
+require('./models/index.model');
 const { initDb } = require('./config/db');
 
 
@@ -23,5 +24,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories',categoryRouter);
+app.use('/orders',orderRouter);
 
 module.exports = app;
