@@ -1,5 +1,4 @@
-const User = require('../models/Users.model');
-
+const {User,Order} = require("../models/index.model")
 async function getUsers(req, res) {
   try {
     const users = await User.findAll();
@@ -62,11 +61,11 @@ async function deleteUser(req, res) {
 async function showUser(req, res) {
   try {
     const id = req.params.id;
-    const user = User.findOne({ where: { id } });
+    const user =await User.findOne({ where: { id } ,include:Order});
     if (!user) {
       res.status(404).send({ message: "user not found" });
     }
-    res.status(200).send({ message: "user has been updated successfully",user:user });
+    res.status(200).send({user:user });
 
   }
   catch (error) {

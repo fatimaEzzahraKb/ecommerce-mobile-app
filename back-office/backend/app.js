@@ -7,6 +7,7 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
+var orderRouter = require('./routes/orders');
 require('./models/Category.model');
 const { initDb } = require('./config/db');
 
