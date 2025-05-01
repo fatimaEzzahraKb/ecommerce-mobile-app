@@ -1,9 +1,17 @@
 const Category = require('../models/Category.model');
+const Book = require('../models/Books.model');
 
 
 async function getCategories(req,res) {
  try{
-  const categories =await Category.findAll();
+  const categories =await Category.findAll({
+    include: {
+      model: Book,
+      as: 'books',
+      attributes: ['id', 'auteur', 'titre', 'description', 'prix'] ,
+      through: {attributes: []}
+    }
+  });
   res.status(200).json({categories});
   console.log(categories)
  }
@@ -17,9 +25,14 @@ async function getCategories(req,res) {
 async function addCategory(req,res){
  try{
   const nom= req.body.nom;
+  const books = req.body.books;
   const category = await Category.create({
    nom
   })
+
+  if(books && books.length > 0) {
+    await category.addBooks(books) ;
+  }
 
   res.status(201).json({message:"Catgeory created successfully ", category});
  }
@@ -45,11 +58,16 @@ async function deleteCategory(req,res){
 async function updateCategory(req,res){
  try{
   const id = req.params.id;
+  const books = req.body.books;
   const category = await Category.findOne({where:{id:id}});
   if(!category){
    res.status(404).send({message:"Category not found"});
   }
    category.nom = req.body.nom;
+
+   if (books && books.length >0) {
+    await category.setBooks(books);
+   }
    res.status(200).send({message:"Category has been updated successfully",cat:category});
   
  }

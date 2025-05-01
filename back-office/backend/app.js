@@ -7,6 +7,8 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
+var bookRouter = require('./routes/books');
+var cartRouter = require('./routes/cartItems');
 require('./models/Category.model');
 require('./models/Books.model');
 require('./models/cartItems.model');
@@ -26,5 +28,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories',categoryRouter);
+app.use('/books',bookRouter);
+app.use('/cart',cartRouter);
+app.use('/uploads', express.static('uploads'));
+
 
 module.exports = app;
