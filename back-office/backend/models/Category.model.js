@@ -4,7 +4,7 @@ const {DataTypes} = require("sequelize");
 
 const Category = sequelize.define("Categories",{
  id:{type:DataTypes.INTEGER, allowNull:false,primaryKey:true,autoIncrement:true},
- nom:{type:DataTypes.STRING, allowNull:false,unique:true}
+ nom:{type:DataTypes.STRING(100), allowNull:false}
 })
 
 
