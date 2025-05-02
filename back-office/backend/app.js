@@ -25,17 +25,15 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
 var orderRouter = require('./routes/orders');
+require('./models/Category.model');
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories',categoryRouter);
-<<<<<<< HEAD
 app.use('/books',bookRouter);
 app.use('/cart',cartRouter);
 app.use('/uploads', express.static('uploads'));
 
-=======
 app.use('/orders',orderRouter);
->>>>>>> 64c05858a97f7610d3bb32de1c852eaddce32ea2
 
 module.exports = app;
