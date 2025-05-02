@@ -1,7 +1,7 @@
 const {User,Order} = require("../models/index.model")
 async function getUsers(req, res) {
   try {
-    const users = await User.findAll();
+    const users = await User.findAll({include:{model:Order}});
     res.status(200).json({ users });
     console.log(users)
   }
