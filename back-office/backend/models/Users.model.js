@@ -11,10 +11,6 @@ const User = sequelize.define("Users",{
  isAdmin:{type:DataTypes.BOOLEAN,allowNull:false},
 })
 
- User.beforeCreate(async(user,options)=>{
- const salt = await bcrypt.genSalt(10);
- user.mdp = await bcrypt.hash(user.mdp, salt);
-})
 
 
 module.exports = User;

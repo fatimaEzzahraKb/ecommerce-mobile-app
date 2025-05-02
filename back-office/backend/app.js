@@ -25,6 +25,8 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
 var orderRouter = require('./routes/orders');
+var bookRouter = require('./routes/books');
+var cartRouter = require('./routes/cartItems');
 require('./models/Category.model');
 
 app.use('/', indexRouter);
