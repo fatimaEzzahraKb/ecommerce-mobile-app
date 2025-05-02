@@ -14,6 +14,7 @@ import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { LogInComponent } from './pages/log-in/log-in.component';
 import { NgFor } from '@angular/common';
+import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
 
 
 @NgModule({
@@ -33,7 +34,7 @@ import { NgFor } from '@angular/common';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    LogInComponent
+    LogInComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
