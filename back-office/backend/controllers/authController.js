@@ -48,14 +48,13 @@ async function login(req, res) {
     const token = jwt.sign(
       {
         id: user.id,
-        name: user.nom,  // Using 'name' instead of 'nom' for internationalization
+        name: user.nom,  
         isAdmin: user.isAdmin
       },
       process.env.JWT_SECRET,
-      { expiresIn }  // Correct JWT options syntax
+      { expiresIn } 
     );
 
-    // 4. Successful response (exclude sensitive data)
     res.status(200).json({
       message: 'Login successful',
       token,
@@ -69,7 +68,7 @@ async function login(req, res) {
 
   } catch (error) {
     console.error("Login Error:", error);
-    res.status(500).json({ message: 'Internal server error' });
+    res.status(500).json({ message: 'Internal server error' ,error:error});
   }
 }
 
