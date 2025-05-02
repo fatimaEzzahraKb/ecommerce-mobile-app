@@ -30,8 +30,7 @@ const Book = sequelize.define("Books", {
     },
 })
 
-sequelize.sync().then(()=> console.log("Books table created successfully"))
-                .catch((error)=> console.log("Unable to create table",error))
+
 
 module.exports = Book;
 
