@@ -61,6 +61,7 @@ async function login(req, res) {
       user: {
         id: user.id,
         name: user.nom,
+        prenom:user.prenom,
         email: user.email,
         isAdmin: user.isAdmin
       }
@@ -71,6 +72,5 @@ async function login(req, res) {
     res.status(500).json({ message: 'Internal server error' ,error:error});
   }
 }
-
 module.exports = { register, login };
 

@@ -13,8 +13,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { LogInComponent } from './pages/log-in/log-in.component';
-import { NgFor } from '@angular/common';
+import { NgFor, UpperCasePipe } from '@angular/common';
 import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
+import { CategoriesComponent } from './pages/categories/categories.component';
 
 
 @NgModule({
@@ -28,13 +29,15 @@ import { UsersTableComponent } from './pages/Users/users-table/users-table.compo
     AppRoutingModule,
     NgFor,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    UpperCasePipe
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
     LogInComponent,
+    CategoriesComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
