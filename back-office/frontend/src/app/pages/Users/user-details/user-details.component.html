@@ -1,0 +1,247 @@
+<div class="header pb-8 pt-5 pt-lg-8 d-flex align-items-center"
+  style="min-height: 600px; background-image: url(assets/img/theme/profile-cover.jpg); background-size: cover; background-position: center top;">
+  <!-- Mask -->
+  <span class="mask bg-gradient-danger opacity-8"></span>
+  <!-- Header container -->
+  <div class="container-fluid d-flex align-items-center">
+    <div class="row">
+      <div class="col-xl-4 order-xl-2 mb-5 mb-xl-0">
+        <div class="card card-profile shadow">
+          <div class="row justify-content-center">
+            <div class="col-lg-3 order-lg-2">
+              <div class="card-profile-image">
+                <a href="javascript:void(0)">
+                  <img src="assets/img/theme/blue-profile-icon.webp" class="rounded-circle" title="t">
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="card-header text-center border-0 pt-8 pt-md-4 pb-0 pb-md-4">
+            <div class="d-flex justify-content-between">
+              <a href="javascript:void(0)" class="btn btn-sm btn-info ml-8">{{userInfo.isAdmin ? 'Admin':
+                'Customer'}}</a>
+              <!-- <a href="javascript:void(0)" class="btn btn-sm btn-default float-right">Message</a> -->
+            </div>
+          </div>
+          <div class="card-body pt-0 pt-md-4">
+            <div class="row">
+              <div class="col">
+                <div class="card-profile-stats d-flex justify-content-center mt-md-5">
+                  <div>
+                    <span class="heading">{{userInfo.Orders.length}}</span>
+                    <span class="description">Commandes</span>
+                  </div>
+                  <div>
+                    <span class="heading">10</span>
+                    <span class="description">Produits Achetés</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="text-center">
+              <h3>
+                {{userInfo.nom}} {{userInfo.prenom}} <span class="font-weight-light">, 27</span>
+              </h3>
+              <div class="h5 font-weight-300">
+                <i class="ni location_pin mr-2"></i>Bucharest, Romania
+              </div>
+              <div class="h5 mt-4">
+                <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+              </div>
+              <div>
+                <i class="ni education_hat mr-2"></i>University of Computer Science
+              </div>
+              <hr class="my-4" />
+              <p>Ryan — the name taken by Melbourne-raised, Brooklyn-based Nick Murphy — writes, performs and records all of his own music.</p>
+              <a href="javascript:void(0)">Show more</a>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="col-xl-8 order-xl-2">
+        <div class="card bg-secondary shadow">
+          <div class="card-header bg-white border-0">
+            <div class="row align-items-center">
+              <div class="col-8">
+                <h3 class="mb-0">Details</h3>
+              </div>
+              <div class="col-4 text-right">
+                <a (click)="deleteUser()" class="btn btn-sm btn-danger">Delete User</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <form>
+              <h6 class="heading-small text-muted mb-4">User information</h6>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <h5>Nom</h5>
+                    <p> {{userInfo.nom}} </p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <h5>Prenom</h5>
+                    <p> {{userInfo.prenom}} </p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <h5>email</h5>
+                    <p> {{userInfo.email}} </p>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="form-group">
+                    <h5>Date de Création du compte</h5>
+                    <p> {{userInfo.createdAt | date}} </p>
+                  </div>
+                </div>
+              </div>
+              <hr class="my-4" />
+              <!-- Address -->
+              <h6 class="heading-small text-muted mb-4">Contact information</h6>
+              <div class="pl-lg-4">
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <h5>Ville</h5>
+                      <p> {{userInfo.ville}} </p>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="form-group">
+                      <h5>Pays</h5>
+                      <p> {{userInfo.pays}} </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mt--7">
+  <div class="row">
+    <div class="card shadow" *ngIf="userInfo.Orders.length>0">
+      <div class="card-header border-0">
+        <h3 class="mb-0"> Commandes </h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Nombre de produit</th>
+              <th scope="col">Total</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let order of userInfo.Orders; let i = index">
+              <th scope="row">
+                <div class="media align-items-center">
+                  <div class="media-body">
+                    <a href="#"> <span class="mb-0 text-sm">{{order.id}}</span></a>
+                  </div>
+                </div>
+              </th>
+              <td>
+                {{order.createdAt | date:'dd-MM-YYYY'}}
+              </td>
+              <td>
+                <span class="badge badge-dot mr-4">
+                  <i  [ngClass]="{'bg-primary' :order.status==='en cours','bg-success': order.status==='términé','bg-danger': order.status ==='annulé'}"></i> {{order.status}}
+                </span>
+              </td>
+              <td>
+                6
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <span class="mr-2">{{order.total}} Dhs</span>
+
+                </div>
+              </td>
+              <td class="text-right">
+                <div ngbDropdown placement="bottom-right">
+                  <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                    <i class="fas fa-ellipsis-v"></i>
+                  </a>
+                  <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                    <!-- <a  [routerLink]="['/orders', order.id]" class="dropdown-item" > <i class="fas fa-eye" style="font-size: 13px;"></i>Details</a> -->
+                    <a class="dropdown-item delete"  > <i class="fas fa-trash fa-sm"
+                        style="font-size: 13px;"></i> Delete</a>
+
+                  </div>
+                </div>
+              </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer py-4">
+        <nav aria-label="...">
+          <ul class="pagination justify-content-end mb-0">
+            <li class="page-item disabled">
+              <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                <i class="fas fa-angle-left"></i>
+                <span class="sr-only">Previous</span>
+              </a>
+            </li>
+            <li class="page-item active">
+              <a class="page-link" href="javascript:void(0)">1</a>
+            </li>
+            <li class="page-item">
+              <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="javascript:void(0)">
+                <i class="fas fa-angle-right"></i>
+                <span class="sr-only">Next</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <div class="card shadow" *ngIf="userInfo.Orders.length===0">
+      <div class="card-header border-0">
+        <h3 class="mb-0"> </h3>
+      </div>
+      <div class="table-responsive">
+        <table class="table align-items-center table-flush">
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">Id</th>
+              <th scope="col">Date</th>
+              <th scope="col">Status</th>
+              <th scope="col">Nombre de produit</th>
+              <th scope="col">Total</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <div class="text-center">
+              <h4>No Orders Yet!</h4>
+          </div>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

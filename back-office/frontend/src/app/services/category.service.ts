@@ -4,11 +4,11 @@ import { Injectable } from '@angular/core';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class CategoryService {
 
-  apiUrl : string = "http://localhost:3000/users/";
+  apiUrl : string = "http://localhost:3000/categories/";
   constructor(private http:HttpClient) { }
-  loadUsers(){
+  loadCategories(){
     return this.http.get(this.apiUrl);
   }
   delete(id:number){

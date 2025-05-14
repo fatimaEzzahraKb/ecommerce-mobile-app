@@ -9,6 +9,8 @@ const User = sequelize.define("Users",{
  email:{type:DataTypes.STRING,allowNull:false},
  mdp:{type:DataTypes.STRING,allowNull:false},
  isAdmin:{type:DataTypes.BOOLEAN,allowNull:false},
+ ville:{type:DataTypes.STRING,allowNull:false,defaultValue:"Casablanca"},
+ pays:{type:DataTypes.STRING,allowNull:false,defaultValue:"Maroc"}
 })
 
 

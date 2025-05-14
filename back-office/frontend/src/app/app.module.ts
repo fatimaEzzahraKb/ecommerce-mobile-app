@@ -13,9 +13,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 import { LogInComponent } from './pages/log-in/log-in.component';
-import { NgFor, UpperCasePipe } from '@angular/common';
+import { DatePipe, NgFor, UpperCasePipe } from '@angular/common';
 import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
 import { CategoriesComponent } from './pages/categories/categories.component';
+import { UserDetailsComponent } from './pages/Users/user-details/user-details.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     NgFor,
     RouterModule,
     ReactiveFormsModule,
-    UpperCasePipe
+    UpperCasePipe,
+    DatePipe
   ],
   declarations: [
     AppComponent,
@@ -38,6 +40,7 @@ import { CategoriesComponent } from './pages/categories/categories.component';
     AuthLayoutComponent,
     LogInComponent,
     CategoriesComponent,
+    UserDetailsComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,5 +1,6 @@
 const Category = require('../models/Category.model');
 const Book = require('../models/Books.model');
+const Order = require('../models/Order.model');
 
 
 async function getCategories(req,res) {
@@ -9,14 +10,18 @@ async function getCategories(req,res) {
       model: Book,
       as: 'books',
       attributes: ['id', 'auteur', 'titre', 'description', 'prix'] ,
-      through: {attributes: []}
+      through: {attributes: []},
+      include:{
+        model:Order,
+        attributes:[]
+      }
     }
   });
   res.status(200).json({categories});
   console.log(categories)
  }
  catch(error){
-  console.log("Error while getting users",error)
+  console.log("Error while getting categories:ers",error)
  }
 }
 
