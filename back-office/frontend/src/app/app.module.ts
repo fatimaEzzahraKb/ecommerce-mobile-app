@@ -12,6 +12,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+import { ProductsComponent } from './pages/products/products.component';
+import { CartItemsComponent } from './pages/cart-items/cart-items.component';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { ComponentsModule } from './components/components.module';
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    AuthLayoutComponent
+    AuthLayoutComponent,
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

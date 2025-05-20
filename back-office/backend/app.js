@@ -7,12 +7,9 @@ var app = express();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
-<<<<<<< HEAD
 var bookRouter = require('./routes/books');
 var cartRouter = require('./routes/cartItems');
-=======
 var orderRouter = require('./routes/orders');
->>>>>>> 64c05858a97f7610d3bb32de1c852eaddce32ea2
 require('./models/Category.model');
 const { initDb } = require('./config/db');
 
@@ -29,13 +26,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories',categoryRouter);
-<<<<<<< HEAD
+
 app.use('/books',bookRouter);
 app.use('/cart',cartRouter);
 app.use('/uploads', express.static('uploads'));
 
-=======
+
 app.use('/orders',orderRouter);
->>>>>>> 64c05858a97f7610d3bb32de1c852eaddce32ea2
+
 
 module.exports = app;
