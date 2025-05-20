@@ -15,8 +15,11 @@ import { ComponentsModule } from './components/components.module';
 import { LogInComponent } from './pages/log-in/log-in.component';
 import { DatePipe, NgFor, UpperCasePipe } from '@angular/common';
 import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
-import { CategoriesComponent } from './pages/categories/categories.component';
+import { CategoriesComponent } from './pages/Category/categories/categories.component';
 import { UserDetailsComponent } from './pages/Users/user-details/user-details.component';
+import { CategoryDetailsComponent } from './pages/Category/category-details/category-details.component';
+import { CategoryAddComponent } from './pages/Category/category-add/category-add.component';
+
 
 
 @NgModule({
@@ -41,6 +44,8 @@ import { UserDetailsComponent } from './pages/Users/user-details/user-details.co
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,
+    CategoryDetailsComponent,
+    CategoryAddComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

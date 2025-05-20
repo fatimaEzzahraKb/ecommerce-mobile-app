@@ -13,7 +13,7 @@ function initDb(){
  sequelize.authenticate()
  .then(()=>{
   console.log("Connexion à la DB réussite");
-return sequelize.sync({alter:true});
+// return sequelize.sync();   here to avoid repeating the recreation of already existed table
 })
 .catch((error)=>console.log("Echec de connexion:",error))
 };

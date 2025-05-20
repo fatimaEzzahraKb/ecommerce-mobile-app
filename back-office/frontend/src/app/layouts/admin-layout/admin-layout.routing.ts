@@ -6,8 +6,9 @@ import { MapsComponent } from '../../pages/maps/maps.component';
 import { UserProfileComponent } from '../../pages/user-profile/user-profile.component';
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { UsersTableComponent } from 'src/app/pages/Users/users-table/users-table.component';
-import { CategoriesComponent } from 'src/app/pages/categories/categories.component';
+import { CategoriesComponent } from 'src/app/pages/Category/categories/categories.component';
 import { UserDetailsComponent } from 'src/app/pages/Users/user-details/user-details.component';
+import { CategoryAddComponent } from 'src/app/pages/Category/category-add/category-add.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -16,5 +17,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'icons',          component: IconsComponent },
     { path: 'users',          component: UsersTableComponent },
     { path: 'users/:id',          component: UserDetailsComponent },
-    { path: 'categories',     component: CategoriesComponent }
+    { path: 'categories',     component: CategoriesComponent },
+    { path: 'categories/add',     component: CategoryAddComponent }
 ];
