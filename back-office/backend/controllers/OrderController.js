@@ -1,4 +1,4 @@
-const {Order,User} = require("../models/index.model");
+const {Order,User, Book} = require("../models/index.model");
 
 async function addOrder(req, res) {
  try {
@@ -46,7 +46,7 @@ async function getOrdersOfUser(req, res) {
 async function showOrder(req, res) {
  try {
   const id = req.params.id
-  const order = await Order.findOne({where:{id}});
+  const order = await Order.findOne({where:{id},include:[{model:Book},{model:User,attributes:["id","nom","prenom","email"]}]});
   if(!order){
    res.status(404).send({message:"Order not found"});
   }

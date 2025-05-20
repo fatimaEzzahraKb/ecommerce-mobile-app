@@ -7,6 +7,10 @@ import { UserProfileComponent } from '../../pages/user-profile/user-profile.comp
 import { TablesComponent } from '../../pages/tables/tables.component';
 import { ProductsComponent } from 'src/app/pages/products/products.component';
 import { CartItemsComponent } from 'src/app/pages/cart-items/cart-items.component';
+import { UsersTableComponent } from 'src/app/pages/Users/users-table/users-table.component';
+import { CategoriesComponent } from 'src/app/pages/Category/categories/categories.component';
+import { UserDetailsComponent } from 'src/app/pages/Users/user-details/user-details.component';
+import { CategoryAddComponent } from 'src/app/pages/Category/category-add/category-add.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -16,4 +20,8 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'maps',           component: MapsComponent },
     { path: 'products',       component: ProductsComponent },
     { path: 'cartItems',      component: CartItemsComponent },
+    { path: 'users',          component: UsersTableComponent },
+    { path: 'users/:id',          component: UserDetailsComponent },
+    { path: 'categories',     component: CategoriesComponent },
+    { path: 'categories/add',     component: CategoryAddComponent }
 ];
