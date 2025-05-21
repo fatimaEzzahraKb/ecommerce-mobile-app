@@ -6,7 +6,17 @@ require('dotenv').config();
 var path = require('path');
 
 var app = express();
+
+var indexRouter = require('./routes/index');
+var usersRouter = require('./routes/users');
+var categoryRouter = require('./routes/categories');
+var bookRouter = require('./routes/books');
+var cartRouter = require('./routes/cartItems');
+var orderRouter = require('./routes/orders');
+require('./models/Category.model');
+
 // DB
+
 const { initDb } = require('./config/db');
 initDb();
 
@@ -32,10 +42,15 @@ require('./models/Category.model');
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/categories',categoryRouter);
+
 app.use('/books',bookRouter);
 app.use('/cart',cartRouter);
 app.use('/uploads', express.static('uploads'));
 
+
 app.use('/orders',orderRouter);
+
+
+
 
 module.exports = app;

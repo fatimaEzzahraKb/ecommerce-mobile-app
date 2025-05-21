@@ -12,6 +12,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
+
+import { ProductsComponent } from './pages/products/products.component';
+import { CartItemsComponent } from './pages/cart-items/cart-items.component';
+
 import { LogInComponent } from './pages/log-in/log-in.component';
 import { DatePipe, NgFor, UpperCasePipe } from '@angular/common';
 import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
@@ -41,6 +45,9 @@ import { CategorieDetailsComponent } from './pages/Category/categorie-details/ca
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    ProductsComponent,
+    CartItemsComponent,
+    UsersTableComponent,
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,

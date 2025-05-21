@@ -1,0 +1,15 @@
+#container-table-products{
+    margin-top: 150px;
+}
+
+.form-book{
+    position: relative;
+    top: 100px;
+}
+
+#productImage{
+    display: block;
+    visibility: visible;
+    position: relative;
+    z-index: 10;
+}
