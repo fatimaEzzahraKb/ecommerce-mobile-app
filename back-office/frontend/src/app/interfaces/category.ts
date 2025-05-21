@@ -1,4 +1,8 @@
 export interface Category {
+ id?:number,
  nom:string,
- description ?:Text
+ description ?:string,
+ createdAt?:Date,
+ updatedAt?:Date,
+ books?:[]
 }

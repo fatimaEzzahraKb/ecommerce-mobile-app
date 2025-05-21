@@ -17,8 +17,8 @@ import { DatePipe, NgFor, UpperCasePipe } from '@angular/common';
 import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
 import { CategoriesComponent } from './pages/Category/categories/categories.component';
 import { UserDetailsComponent } from './pages/Users/user-details/user-details.component';
-import { CategoryDetailsComponent } from './pages/Category/category-details/category-details.component';
 import { CategoryAddComponent } from './pages/Category/category-add/category-add.component';
+import { CategorieDetailsComponent } from './pages/Category/categorie-details/categorie-details.component';
 
 
 
@@ -44,8 +44,8 @@ import { CategoryAddComponent } from './pages/Category/category-add/category-add
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,
-    CategoryDetailsComponent,
     CategoryAddComponent,
+    CategorieDetailsComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

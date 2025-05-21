@@ -9,6 +9,7 @@ import { UsersTableComponent } from 'src/app/pages/Users/users-table/users-table
 import { CategoriesComponent } from 'src/app/pages/Category/categories/categories.component';
 import { UserDetailsComponent } from 'src/app/pages/Users/user-details/user-details.component';
 import { CategoryAddComponent } from 'src/app/pages/Category/category-add/category-add.component';
+import { CategorieDetailsComponent } from 'src/app/pages/Category/categorie-details/categorie-details.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -18,5 +19,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'users',          component: UsersTableComponent },
     { path: 'users/:id',          component: UserDetailsComponent },
     { path: 'categories',     component: CategoriesComponent },
-    { path: 'categories/add',     component: CategoryAddComponent }
+    { path: 'categories/:id',     component: CategorieDetailsComponent }
 ];

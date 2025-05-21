@@ -36,8 +36,8 @@ Book_Category.belongsTo(Book, {foreignKey: 'book_id'});
 Book_Category.belongsTo(Category, {foreignKey: 'category_id'});
 
 
-sequelize.sync().then(()=>console.log("Table pivot bien crée"))
-                .catch((error)=>console.log("Unable to create table",error))
+// sequelize.sync().then(()=>console.log("Table pivot bien crée"))
+//                 .catch((error)=>console.log("Unable to create table",error))
 
 
 module.exports = Book_Category;

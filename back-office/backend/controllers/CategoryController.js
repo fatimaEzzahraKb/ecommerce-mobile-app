@@ -25,8 +25,6 @@ async function getCategories(req,res) {
  }
 }
 
-
-
 async function addCategory(req,res){
  try{
   const nom= req.body.nom;
@@ -99,4 +97,24 @@ async function updateCategory(req,res){
  }
 }
 
-module.exports={getCategories,addCategory,deleteCategory,updateCategory};
+async function showCategory(req,res){
+  try{
+    const id = parseInt(req.params.id);
+    const category = await Category.findOne({where:{id},include:{
+      model:Book,
+      as:'books',
+      through:{attributes:[]}
+    }});
+    if(!category){
+      return res.status(404).send({message:'Category Not Found'});
+    }
+    return res.status(200).send({category});
+  }
+  catch(err){
+    console.log('Error while finding the category ',err);
+    return res.status(500).send({message:"Internal Server Error",error:err});
+  }
+}
+
+
+module.exports={getCategories,addCategory,deleteCategory,updateCategory,showCategory};
