@@ -33,7 +33,6 @@ import { UsersTableComponent } from 'src/app/pages/Users/users-table/users-table
     IconsComponent,
     MapsComponent,
     ProductsComponent,
-    CartItemsComponent,
     UsersTableComponent
   ]
 })

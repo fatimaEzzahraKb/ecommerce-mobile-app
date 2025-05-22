@@ -7,12 +7,15 @@ var path = require('path');
 
 var app = express();
 
+// Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var categoryRouter = require('./routes/categories');
 var bookRouter = require('./routes/books');
 var cartRouter = require('./routes/cartItems');
 var orderRouter = require('./routes/orders');
+var dashboardRouter = require("./routes/dashboard");
+
 require('./models/Category.model');
 
 // DB
@@ -30,16 +33,11 @@ app.use(cors()); // Enable CORS for all origins
 app.use(express.json()); // Parse JSON request bodies
 
 
-// Routes
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var categoryRouter = require('./routes/categories');
-var orderRouter = require('./routes/orders');
-var bookRouter = require('./routes/books');
-var cartRouter = require('./routes/cartItems');
+
 require('./models/Category.model');
 
 app.use('/', indexRouter);
+app.use("/dashboard",dashboardRouter);
 app.use('/users', usersRouter);
 app.use('/categories',categoryRouter);
 

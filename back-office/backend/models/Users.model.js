@@ -12,10 +12,9 @@ const User = sequelize.define("Users",{
   validate:{
    notEmpty:{msg:"Le prénom est obligatoire"}
   }},
- email:{type:DataTypes.STRING,allowNull:false,
+ email:{type:DataTypes.STRING,allowNull:false,unique:true,
   validate:{
-   notEmpty:{msg:"L'email est obligatoire"},
-   unique:{msg:"Cette email éxiste déjà"}
+   notEmpty:{msg:"L'email est obligatoire"}
   }},
  mdp:{type:DataTypes.STRING,allowNull:false,
   validate:{

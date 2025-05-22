@@ -23,7 +23,6 @@ export class CategoryService {
     return this.http.put(`${this.apiUrl}${id}`,catData);
   }
   show(id:number){
-    console.log("show",id)
     return this.http.get(`${this.apiUrl}${id}`);
   }
 
