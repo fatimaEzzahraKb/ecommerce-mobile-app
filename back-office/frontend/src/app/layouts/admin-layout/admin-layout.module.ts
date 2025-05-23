@@ -29,7 +29,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     UserProfileComponent,
     TablesComponent,
     IconsComponent,
-    MapsComponent
+
+    MapsComponent,
+
   ]
 })
 

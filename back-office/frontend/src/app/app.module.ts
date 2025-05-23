@@ -50,8 +50,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
  
     AdminLayoutComponent,
     AuthLayoutComponent,
+<<<<<<< HEAD
     ProductsComponent,
     UsersTableComponent,
+=======
+>>>>>>> 9996da76cab20e075aa0972f9909f0da1cb3383c
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,

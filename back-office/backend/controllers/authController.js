@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs')
 const User = require('../models/Users.model');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const { ValidationError, UniqueConstraintError } = require('sequelize');
 async function register(req, res) {
   try {
     const { nom, prenom, email, mdp, isAdmin } = req.body;
@@ -19,6 +20,13 @@ async function register(req, res) {
 
     res.status(201).json({ message: 'User created successfully', user });
   } catch (error) {
+    if(error instanceof UniqueConstraintError){
+      return res.status(400).json({message:"Cet email est déjà utilisé"})
+    }
+    if(error instanceof ValidationError){
+      const messages = error.errors.map(e=>e.message)
+      return res.status(400).json({message:messages})
+    }
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }

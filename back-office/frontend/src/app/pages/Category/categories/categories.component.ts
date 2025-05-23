@@ -45,7 +45,6 @@ export class CategoriesComponent implements OnInit {
         this.categorySrv.delete(id).subscribe(
           (res: any) => {
 
-            console.log(res.status);
             this.getCategories();
 
           },
@@ -71,7 +70,6 @@ export class CategoriesComponent implements OnInit {
 
   }
   addCategory() {
-    console.log(this.addForm.value)
     this.categorySrv.add(this.addForm.value).subscribe((res: any) => {
       console.log(res.status)
       this.addFormErrors = [];

@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from 'src/app/interfaces/category';
 import { CategoryService } from 'src/app/services/category.service';
 
@@ -12,36 +14,65 @@ export class CategorieDetailsComponent implements OnInit {
   
   category :any | null = null ;
   books : any[] = [];
+  bookForm: FormGroup;
+   addFormErrors: any[] = [];
+  selectedImage: File | null = null;
   notFound: boolean = false;
-  constructor(private categorySrv:CategoryService,private route:ActivatedRoute) { 
+  modalRef:any;
+  constructor(private categorySrv:CategoryService,private route:ActivatedRoute,private modalService :NgbModal) { 
     const id = this.route.snapshot.paramMap.get('id');
-    console.log("init",id)
     this.getCategoryDetails(parseInt(id));
   }
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
-    console.log("init",id)
     this.getCategoryDetails(parseInt(id));
+    this.bookForm =  new FormGroup({
+    titre: new FormControl("",[Validators.required]),
+    description: new FormControl("",[Validators.required]),
+    auteur: new FormControl("",[Validators.required]),
+    prix: new FormControl(0,[Validators.required]),
+  })
   }
   getCategoryDetails(id:number){
-    console.log("get",id)
     this.categorySrv.show(id).subscribe(
       (res:any)=>{
         if(res.status===404){
           this.notFound = true;
-          console.log(res.message);
         }
         else{
          this.category = res.category;
          this.books = res.category.books;
-         console.log(this.category)
-         console.log("res: ",res.category)
         }
       },(err)=>{
         console.log('There is an error  in the server',err)
       }
     )
   }
-
+  openAddModal(content: any) {
+    this.modalRef = this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title', backdrop: false });
+  }
+  close(){
+    this.modalRef.close();
+  }
+  onFileChange(event:any){
+    const file = event.target.files[0];
+    if(file){
+      this.selectedImage = file;
+    console.log(this.selectedImage)
+    }
+  }
+  addBook(){
+    if(this.bookForm.invalid || !this.selectedImage){
+      console.log("Form invalid");
+      return ;
+    }
+    const formData = new FormData();
+    formData.append("titre",this.bookForm.get("titre")?.value)
+    formData.append("auteur",this.bookForm.get("auteur")?.value)
+    formData.append("description",this.bookForm.get("description")?.value)
+    formData.append("prix",this.bookForm.get("prix")?.value)
+    formData.append("image",this.selectedImage);
+    
+  }
 }

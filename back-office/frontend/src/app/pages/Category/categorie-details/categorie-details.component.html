@@ -1,12 +1,12 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-   <div class="container-fluid d-flex align-items-center">
-      <div class="col-lg-7 col-md-10">
-        <h1 class="display-2 text-white"> {{category.nom}} </h1>
-        <p class="text-white mt-0 mb-5"> {{category.description}} </p>
-        <small class="text-white mt-0 mb-5">Ajoutée le: {{category.createdAt | date }} </small>
-      </div>
-   </div>
-  <div class="container-fluid">
+  <div class="container-fluid d-flex align-items-center">
+    <div class="col-lg-7 col-md-10 mb-5">
+      <h1 class="display-2 text-white"> {{category.nom}} </h1>
+      <p class="text-white mt-0"> {{category.description}} </p>
+      <small class="text-white mt-0 mb-5">Ajoutée le: {{category.createdAt | date }} </small>
+    </div>
+  </div>
+  <div class="container-fluid mt-5">
     <div class="header-body">
       <div class="row">
         <div class="col">
@@ -14,39 +14,81 @@
             <div class="card-header border-0">
               <h3 class="mb-0">Livres de Cette Catégorie </h3>
               <div class=" text-right">
-                <button type="button" class="btn btn-sm btn-primary">
+                <button type="button" class="btn btn-sm btn-primary" (click)="openAddModal(addBookModal)">
                   + Ajouter
                 </button>
-                <ng-template #addModal let-modal>
+                <ng-template #addBookModal let-modal>
                   <div class="modal-header">
                     <h4 class="modal-title">Ajouter Produit de cette catégorie</h4>
-                    <button type="button" class="close" aria-label="Close" >
+                    <button type="button" class="close" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
+
                   </div>
                   <!-- ADD MODAL -->
-                  <!-- <div class="modal-body">
-                    <form (submit)="addCategory()" [formGroup]="addForm">
+                  <div class="modal-body">
+                    <form [formGroup]="addForm">
                       <div class="form-group">
-                        <label class="form-control-label" for="nom">Nom du Catégorie</label>
-                        <input type="text" id="nom" name="nom" class="form-control form-control-alternative"
-                          formControlName="nom">
-                        <span *ngIf="addFormErrors.length>0">
+                        <label class="form-control-label" for="titre">Titre du Livre</label>
+                        <input type="text" id="titre" name="titre" class="form-control form-control-alternative"
+                          formControlName="titre">
+                        <!-- <span *ngIf="addFormErrors.length>0">
                           <span class="text-danger" *ngFor="let err of addFormErrors">
-                            <small *ngIf="err.field==='nom'"> {{err.message}} </small>
-                          </span></span>
+                            <small *ngIf="err.field==='titre'"> {{err.message}} </small>
+                          </span></span> -->
+                      </div>
+                      <div class="form-group">
+                        <label class="form-control-label" for="auteur">Auteur</label>
+                        <input type="text" id="auteur" name="auteur" class="form-control form-control-alternative"
+                          formControlName="auteur">
+                        <!-- <span *ngIf="addFormErrors.length>0">
+                          <span class="text-danger" *ngFor="let err of addFormErrors">
+                            <small *ngIf="err.field==='auteur'"> {{err.message}} </small>
+                          </span></span> -->
                       </div>
                       <div class="form-group">
                         <label class="form-control-label" for="description">Déscription</label>
                         <textarea type="textarea id" name="description" class="form-control form-control-alternative"
                           id="description" formControlName="description"> </textarea>
                       </div>
+                      <div class="form-group">
+                        <label class="form-control-label" for="prix">Prix</label>
+                        <input type="number" id="prix" name="prix" class="form-control form-control-alternative"
+                          formControlName="prix">
+                        <!-- <span *ngIf="addFormErrors.length>0">
+                          <span class="text-danger" *ngFor="let err of addFormErrors">
+                            <small *ngIf="err.field==='prix'"> {{err.message}} </small>
+                          </span></span> -->
+                      </div>
+                      <div class="form-group">
+                        <label for="image" class="form-label">Image du Livre</label>
+
+                        <div class="custom-file-input-wrapper">
+                          <input type="file" id="image" (change)="onFileChange($event)" accept="image/*" hidden
+                            #fileInput />
+                          <div class="row">
+                            
+                          <button type="button" class="btn btn-primary" (click)="fileInput.click()">
+                            Choisir une image
+                          </button>
+
+                          <span class="text-muted mt-2 d-block" *ngIf="selectedImage">
+                            Fichier sélectionné: {{ selectedImage.name }}
+                          </span>
+                          </div>
+                        </div>
+
+                      <!-- <span *ngIf="addFormErrors.length>0">
+                        <span class="text-danger" *ngFor="let err of addFormErrors">
+                          <small *ngIf="err.field==='image'"> {{err.message}} </small>
+                        </span></span> -->
+                      </div>
                     </form>
-                  </div> -->
-                  <!-- <div class="modal-footer">
+                  </div>
+                  <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-                    <button type="submit" (click)="addCategory()" class="btn btn-primary">Save changes</button>
-                  </div> -->
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                  </div>
                 </ng-template>
               </div>
             </div>
@@ -83,7 +125,7 @@
                     </td>
                     <td>
                       <span class="badge badge-dot mr-4 text-center">
-                        <i class="bg-warning"></i> {{book.prix}}
+                        <i class="bg-warning"></i> {{book.prix}} Dhs 
                       </span>
                     </td>
                     <td>
@@ -95,13 +137,12 @@
                           <i class="fas fa-ellipsis-v"></i>
                         </a>
                         <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
-                          <a class="dropdown-item text-primary" href="javascript:void(0)" > <i class="fas fa-pencil-alt"
+                          <a class="dropdown-item text-primary" href="javascript:void(0)"> <i class="fas fa-pencil-alt"
                               style="font-size: 13px;"></i>Edit</a>
-                          <a class="dropdown-item text-success" href="javascript:void(0)" > 
-                           <i class="fas fa-eye" style="font-size: 13px;"></i>Products</a>
-                          <a class="dropdown-item delete text-danger" href="javascript:void(0)"
-                            > <i class="fas fa-trash fa-sm "
-                              style="font-size: 13px;"></i> Delete</a>
+                          <a class="dropdown-item text-success" href="javascript:void(0)">
+                            <i class="fas fa-eye" style="font-size: 13px;"></i>Products</a>
+                          <a class="dropdown-item delete text-danger" href="javascript:void(0)"> <i
+                              class="fas fa-trash fa-sm " style="font-size: 13px;"></i> Delete</a>
 
                         </div>
 
@@ -113,11 +154,11 @@
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form  [formGroup]="editForm">
+                            <form [formGroup]="editForm">
                               <div class="form-group">
                                 <label class="form-control-label" for="nom">Nom du Catégorie</label>
                                 <input type="text" id="nom" name="nom" class="form-control form-control-alternative"
-                                  formControlName="nom" >
+                                  formControlName="nom">
                                 <span *ngIf="editFormErrors.length>0">
                                   <span class="text-danger" *ngFor="let err of editFormErrors">
                                     <small *ngIf="err.field==='nom'"> {{err.message}} </small>
@@ -133,12 +174,13 @@
                           </div>
                           <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
-                            <button type="submit" (click)="editCategory(categorie.id)" class="btn btn-primary">Save changes</button>
+                            <button type="submit" (click)="editCategory(categorie.id)" class="btn btn-primary">Save
+                              changes</button>
                           </div>
                         </ng-template>
                       </div>
                     </td>
-                  </tr> 
+                  </tr>
 
 
                 </tbody>
