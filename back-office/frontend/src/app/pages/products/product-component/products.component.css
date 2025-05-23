@@ -1,0 +1,33 @@
+.container-table-products{
+   
+}
+
+.form-book{
+    position: relative;
+    top: 100px;
+}
+
+.table-book{
+    margin-top: 130px;
+   
+}
+
+/* .img-book{
+    padding: 15px;
+} */
+
+#productImage{
+    display: block;
+    visibility: visible;
+    position: relative;
+    z-index: 10;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    margin-top: 0; 
+    /* padding-left: 0px; */
+}
+
+
+  

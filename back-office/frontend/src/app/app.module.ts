@@ -13,8 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
-import { ProductsComponent } from './pages/products/products.component';
-import { CartItemsComponent } from './pages/cart-items/cart-items.component';
+import { ProductsComponent } from './pages/products/product-component/products.component';
 
 import { LogInComponent } from './pages/log-in/log-in.component';
 import { DatePipe, NgFor, UpperCasePipe } from '@angular/common';
@@ -23,6 +22,9 @@ import { CategoriesComponent } from './pages/Category/categories/categories.comp
 import { UserDetailsComponent } from './pages/Users/user-details/user-details.component';
 import { CategoryAddComponent } from './pages/Category/category-add/category-add.component';
 import { CategorieDetailsComponent } from './pages/Category/categorie-details/categorie-details.component';
+import { EditModalProductComponent } from './pages/products/edit-modal-product/edit-modal-product.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+
 
 
 
@@ -39,20 +41,23 @@ import { CategorieDetailsComponent } from './pages/Category/categorie-details/ca
     RouterModule,
     ReactiveFormsModule,
     UpperCasePipe,
-    DatePipe
+    DatePipe,
+    ReactiveFormsModule,
+    NgxPaginationModule
   ],
   declarations: [
     AppComponent,
+ 
     AdminLayoutComponent,
     AuthLayoutComponent,
     ProductsComponent,
-    CartItemsComponent,
     UsersTableComponent,
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,
     CategoryAddComponent,
     CategorieDetailsComponent,
+    EditModalProductComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]
