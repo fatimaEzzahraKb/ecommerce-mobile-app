@@ -13,6 +13,11 @@ import { ChangeDetectorRef } from '@angular/core';
 export class CategoriesComponent implements OnInit {
 
   categoriesArray: any[] = [];
+  categoriesTablePage: any[] = [];
+  pagesAmount:number[]=[];
+  pages:number = 0;
+  categoriesPerPage:number =5;
+  currentPage:number = 1;
   newCategory: Category;
   addFormErrors: any[] = [];
   editFormErrors: any[] = [];
@@ -30,7 +35,12 @@ export class CategoriesComponent implements OnInit {
   getCategories() {
     this.categorySrv.loadCategories().subscribe((res: any) => {
       this.categoriesArray = res.categories;
-      console.log(this.categoriesArray);
+      this.pages =Math.floor(this.categoriesArray.length / this.categoriesPerPage)+1;
+      this.pagesAmount = Array.from({length:this.pages},(_,i)=>i+1);
+      this.categoriesTablePage = this.categoriesArray.slice(0,5);
+      console.log(this.categoriesTablePage);
+      console.log(this.pagesAmount);
+      console.log(this.pages);
     })
   }
   deleteCategory(id: number) {
@@ -136,5 +146,16 @@ export class CategoriesComponent implements OnInit {
     this.getCategories();
   }
 
-
+  paginate(page:number){
+    const start = (page-1)*this.categoriesPerPage;
+    const end =page * this.categoriesPerPage;
+    this.categoriesTablePage = this.categoriesArray.slice(start,end);
+    this.currentPage = page;
+  }
+  PrevNext(path:string){
+    this.currentPage= path==="prev" ? this.currentPage-1 : this.currentPage+1;
+    const start = (this.currentPage-1)*this.categoriesPerPage;
+    const end =this.currentPage * this.categoriesPerPage;
+    this.categoriesTablePage = this.categoriesArray.slice(start,end);
+  }
 }

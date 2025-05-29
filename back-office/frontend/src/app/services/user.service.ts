@@ -17,4 +17,10 @@ export class UserService {
   show(id:number){
     return this.http.get(`${this.apiUrl}${id}`);
   }
+  update(id:number,newData:any){
+    return this.http.put(`${this.apiUrl}${id}`,newData,{observe:'response'})
+  }
+  changePassword(id:number,newData:any){
+    return this.http.post(`${this.apiUrl}changePassword/${id}`,newData,{observe:'response'})
+  }
 }

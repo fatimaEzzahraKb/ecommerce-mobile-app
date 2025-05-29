@@ -162,7 +162,9 @@
               </td>
               <td>
                 <span class="badge badge-dot mr-4">
-                  <i  [ngClass]="{'bg-primary' :order.status==='en cours','bg-success': order.status==='términé','bg-danger': order.status ==='annulé'}"></i> {{order.status}}
+                  <i
+                    [ngClass]="{'bg-primary' :order.status==='en cours','bg-success': order.status==='términé','bg-danger': order.status ==='annulé'}"></i>
+                  {{order.status}}
                 </span>
               </td>
               <td>
@@ -181,8 +183,8 @@
                   </a>
                   <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
                     <!-- <a  [routerLink]="['/orders', order.id]" class="dropdown-item" > <i class="fas fa-eye" style="font-size: 13px;"></i>Details</a> -->
-                    <a class="dropdown-item delete"  > <i class="fas fa-trash fa-sm"
-                        style="font-size: 13px;"></i> Delete</a>
+                    <a class="dropdown-item delete"> <i class="fas fa-trash fa-sm" style="font-size: 13px;"></i>
+                      Delete</a>
 
                   </div>
                 </div>
@@ -235,12 +237,10 @@
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody>
-            <div class="text-center">
-              <h4>No Orders Yet!</h4>
-          </div>
-          </tbody>
         </table>
+        <div class="text-center mt-5 mb-5">
+          <h4>No Orders Yet!</h4>
+        </div>
       </div>
     </div>
   </div>

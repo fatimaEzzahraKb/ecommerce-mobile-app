@@ -29,10 +29,7 @@ export class UsersTableComponent implements OnInit {
       if(result.isConfirmed){
       this.userSrv.delete(id).subscribe(
         (res: any) => {
-          
-          console.log(res.status);
           this.getUsers();
-          
         },
         (err)=>{
           Swal.fire('Error',"Failed to Delete the user","error")
@@ -45,5 +42,7 @@ export class UsersTableComponent implements OnInit {
   ngOnInit(): void {
     this.getUsers();
   }
+  paginate(){
 
+  }
 }

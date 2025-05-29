@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -37,9 +37,9 @@ import { CategorieDetailsComponent } from './pages/Category/categorie-details/ca
     AppRoutingModule,
     NgFor,
     RouterModule,
-    ReactiveFormsModule,
     UpperCasePipe,
-    DatePipe
+    DatePipe,
+    ReactiveFormsModule
   ],
   declarations: [
     AppComponent,

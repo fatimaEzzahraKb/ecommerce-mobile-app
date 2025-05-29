@@ -27,12 +27,12 @@ export class CategorieDetailsComponent implements OnInit {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     this.getCategoryDetails(parseInt(id));
-    this.bookForm =  new FormGroup({
-    titre: new FormControl("",[Validators.required]),
-    description: new FormControl("",[Validators.required]),
-    auteur: new FormControl("",[Validators.required]),
-    prix: new FormControl(0,[Validators.required]),
-  })
+  this.bookForm = new FormGroup({
+  titre: new FormControl<string | null>(null, [Validators.required]),
+  description: new FormControl<string | null>(null, [Validators.required]),
+  auteur: new FormControl<string | null>(null, [Validators.required]),
+  prix: new FormControl<number | null>(null, [Validators.required])
+});
   }
   getCategoryDetails(id:number){
     this.categorySrv.show(id).subscribe(

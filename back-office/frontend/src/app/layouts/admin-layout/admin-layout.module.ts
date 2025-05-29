@@ -24,7 +24,8 @@ import { UsersTableComponent } from 'src/app/pages/Users/users-table/users-table
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    ReactiveFormsModule
   ],
   declarations: [
     DashboardComponent,
