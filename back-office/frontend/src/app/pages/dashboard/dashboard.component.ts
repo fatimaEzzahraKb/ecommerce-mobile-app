@@ -24,6 +24,7 @@ export class DashboardComponent implements OnInit {
   public clicked1: boolean = false;
   public totalSales : number = 0;
   public totalCustomers : number = 0;
+  public totalBooks : number = 0;
   public salesChartData : any[] = [];
   public salesChartLabels:any[] = [];
   constructor(private dashboardSrv:DashboardService){}
@@ -65,6 +66,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardSrv.loadData().subscribe((res:any)=>{
       this.totalSales = res.salesTotal;
       this.totalCustomers = res.customersTotal;
+      this.totalBooks = res.booksTotal;
     },(error)=>{
       console.log("Error while getting Data",error)
     })

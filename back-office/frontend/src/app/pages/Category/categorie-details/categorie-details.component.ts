@@ -15,7 +15,7 @@ export class CategorieDetailsComponent implements OnInit {
   category :any | null = null ;
   books : any[] = [];
   bookForm: FormGroup;
-   addFormErrors: any[] = [];
+  addFormErrors: any[] = [];
   selectedImage: File | null = null;
   notFound: boolean = false;
   modalRef:any;

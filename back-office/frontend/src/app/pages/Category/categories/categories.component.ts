@@ -1,6 +1,6 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Category } from 'src/app/interfaces/category';
 import { CategoryService } from 'src/app/services/category.service';
 import Swal from 'sweetalert2';
@@ -21,7 +21,7 @@ export class CategoriesComponent implements OnInit {
   newCategory: Category;
   addFormErrors: any[] = [];
   editFormErrors: any[] = [];
-  modalRef: any;
+   modalRef!: NgbModalRef;
   constructor(private categorySrv: CategoryService, private modalService: NgbModal, private cdr: ChangeDetectorRef) {
   }
   addForm: FormGroup = new FormGroup({
