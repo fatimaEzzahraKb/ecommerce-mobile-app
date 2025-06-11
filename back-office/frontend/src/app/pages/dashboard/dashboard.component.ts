@@ -25,6 +25,8 @@ export class DashboardComponent implements OnInit {
   public totalSales : number = 0;
   public totalCustomers : number = 0;
   public totalBooks : number = 0;
+  public salesChartData : any[] = [];
+  public salesChartLabels:any[] = [];
   constructor(private dashboardSrv:DashboardService){}
   ngOnInit() {
      this.getData();

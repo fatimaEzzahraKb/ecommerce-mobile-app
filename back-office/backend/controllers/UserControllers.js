@@ -33,7 +33,7 @@ async function updateUser(req, res) {
       res.status(404).send('Utilisateur non trouvé');
     }
     await user.update(updatedData);
-    res.status(200).send('Utilisateur modifié avec succès');
+    res.status(200).send({user});
   }
   catch (error) {
     console.log("Erreur lors de l'update de l'utilisateur", error);

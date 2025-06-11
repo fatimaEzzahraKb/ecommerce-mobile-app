@@ -20,12 +20,12 @@ async function register(req, res) {
 
     res.status(201).json({ message: 'User created successfully', user });
   } catch (error) {
-    if(error instanceof UniqueConstraintError){
-      return res.status(400).json({message:"Cet email est déjà utilisé"})
+    if (error instanceof UniqueConstraintError) {
+      return res.status(400).json({ message: "Cet email est déjà utilisé" })
     }
-    if(error instanceof ValidationError){
-      const messages = error.errors.map(e=>e.message)
-      return res.status(400).json({message:messages})
+    if (error instanceof ValidationError) {
+      const messages = error.errors.map(e => e.message)
+      return res.status(400).json({ message: messages })
     }
     console.error(error);
     res.status(500).json({ message: 'Server error' });
@@ -40,9 +40,6 @@ async function login(req, res) {
     if (!user) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
-    const testHash = await bcrypt.hash('password123', 10);
-    console.log('Fresh hash of "password123":', testHash);
-    console.log('Matches stored hash?', await bcrypt.compare('password123', user.mdp));
     const isMatch = await bcrypt.compare(mdp, user.mdp);
     console.log(user.mdp, "mdp:", mdp);
     if (!isMatch) {
@@ -56,11 +53,11 @@ async function login(req, res) {
     const token = jwt.sign(
       {
         id: user.id,
-        name: user.nom,  
+        nom: user.nom,
         isAdmin: user.isAdmin
       },
       process.env.JWT_SECRET,
-      { expiresIn } 
+      { expiresIn }
     );
 
     res.status(200).json({
@@ -68,8 +65,8 @@ async function login(req, res) {
       token,
       user: {
         id: user.id,
-        name: user.nom,
-        prenom:user.prenom,
+        nom: user.nom,
+        prenom: user.prenom,
         email: user.email,
         isAdmin: user.isAdmin
       }
@@ -77,8 +74,37 @@ async function login(req, res) {
 
   } catch (error) {
     console.error("Login Error:", error);
-    res.status(500).json({ message: 'Internal server error' ,error:error});
+    res.status(500).json({ message: 'Internal server error', error: error });
   }
 }
-module.exports = { register, login };
+
+async function changePassword(req, res) {
+  try {
+    const { password, confirmPassword } = req.body;
+    const id =parseInt(req.params.id);
+    const user = await User.findByPk(id);
+    if (user) {
+      if (password === confirmPassword) {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPassword = await bcrypt.hash(password, salt);
+        user.mdp = hashedPassword;
+        await user.save();
+        return res.status(200).json({message:'Password is changed Succussfully!',user:user});
+      }
+      else {
+        return res.status(401).send('Passwords are not identique!');
+      }
+    }
+    else {
+      return res.status(404).send('User not found!');
+
+    }
+  }
+  catch (err) {
+    console.log(err);
+    return res.status(500).send('Internal Server Error ');
+
+  }
+}
+module.exports = { register, login, changePassword };
 

@@ -1,6 +1,6 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -42,11 +42,11 @@ import { CartItemsComponent } from './pages/cart-items/cart-items.component';
     AppRoutingModule,
     NgFor,
     RouterModule,
-    ReactiveFormsModule,
     UpperCasePipe,
     DatePipe,
     ReactiveFormsModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,
