@@ -2,7 +2,7 @@ const Book = require('../models/Books.model');
 const Category = require('../models/Category.model');
 
 async function addBook(req, res) {
-    const {titre, auteur, description, prix, categories} = req.body;
+    const { titre, auteur, description, prix, categories } = req.body;
     const image = req.file ? req.file.filename : null;
 
     if (!image) {
@@ -22,10 +22,10 @@ async function addBook(req, res) {
             await book.addCategories(categories);
         }
 
-        res.status(201).json({message: "Livre ajouté avec succès"});
+        res.status(201).json({ message: "Livre ajouté avec succès" });
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Erreur lors de l'ajout du livre"});
+        res.status(500).json({ error: "Erreur lors de l'ajout du livre" });
     }
 
 }
@@ -37,7 +37,7 @@ async function getBooks(req, res) {
                 model: Category,
                 as: 'categories',
                 attributes: ['id', 'nom'],
-                through: {attributes: []}
+                through: { attributes: [] }
             }
         });
 
@@ -45,15 +45,15 @@ async function getBooks(req, res) {
             message: "Liste des livres récupérée avec succès",
             books
         });
-    } catch(error) {
+    } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Erreur lors de la récupération des livres"});
+        res.status(500).json({ error: "Erreur lors de la récupération des livres" });
     }
 }
 
 async function deleteBook(req, res) {
 
-    const {id} = req.params;
+    const { id } = req.params;
 
     try {
         const book = await Book.findByPk(id);
@@ -64,23 +64,23 @@ async function deleteBook(req, res) {
 
         await book.destroy();
 
-        res.status(200).json({message: "Livre supprimé avec succès"});
+        res.status(200).json({ message: "Livre supprimé avec succès" });
     } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Erreur lors de la suppression du livre"});
+        res.status(500).json({ error: "Erreur lors de la suppression du livre" });
     }
 }
 
 async function updateBook(req, res) {
-    const {id} = req.params;
-    const {titre, auteur, description, prix, categories} = req.body;
+    const { id } = req.params;
+    const { titre, auteur, description, prix, categories } = req.body;
     const image = req.file ? req.file.filename : null;
 
-    try{
+    try {
         const book = await Book.findByPk(id);
-        
-        if(!book) {
-            return res.status(404).json({message: "Livre non trouvé"});
+
+        if (!book) {
+            return res.status(404).json({ message: "Livre non trouvé" });
         }
 
         book.titre = titre || book.titre;
@@ -91,17 +91,27 @@ async function updateBook(req, res) {
 
         await book.save();
 
-        if(categories && categories.length > 0) {
-            await book.setCategories(categories);
+        let parsedCategories = categories;
+
+        if (typeof categories === 'string') {
+            try {
+                parsedCategories = JSON.parse(categories);
+            } catch (e) {
+                return res.status(400).json({ error: "Format de catégories invalide" });
+            }
         }
 
-        res.status(200).json({message: "Livre mise à jour avec succés"});
+        if (Array.isArray(parsedCategories) && parsedCategories.length > 0) {
+            await book.setCategories(parsedCategories);
+        }
 
-    } catch(error) {
+        res.status(200).json({ message: "Livre mise à jour avec succés" });
+
+    } catch (error) {
         console.log(error);
-        res.status(500).json({error: "Erreur lors de la mise à jour du livre"});
+        res.status(500).json({ error: "Erreur lors de la mise à jour du livre" });
     }
 }
 
 
-module.exports = {addBook, getBooks, deleteBook, updateBook};
+module.exports = { addBook, getBooks, deleteBook, updateBook };

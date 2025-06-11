@@ -1,0 +1,232 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row">
+                <div class="col">
+                    <div class="card shadow">
+                        <div class="card-header border-0">
+                            <h3 class="mb-0">Commandes </h3>
+                            <!-- <div class=" text-right">
+                
+                
+              </div> -->
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table align-items-center table-flush">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th scope="col">Nom</th>
+                                        <th scope="col">Prénom</th>
+                                        <th scope="col">Titre</th>
+                                        <th scope="col">Auteur</th>
+                                        <th scope="col">Prix</th>
+                                        <th scope="col">Quantité</th>
+                                        <th scope="col"></th>
+                                        <!-- <th scope="col">Titre</th>
+                                        <th scope="col">Prix</th>
+                                        <th scope="col">Quantité</th> -->
+                                        <!-- <th scope="col">Ville</th>
+                    <th scope="col">Total</th> -->
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of cartItemsArray; let i = index">
+                                        <td>{{ item.nom }}</td>
+                                        <td>{{ item.prenom }}</td>
+                                        <td>{{ item.titre }}</td>
+                                        <td>{{ item.auteur }}</td>
+                                        <td>{{ item.prix }}</td>
+                                        <td>{{ item.quantite }}</td>
+                                        <td class="text-right">
+                                            <div ngbDropdown placement="bottom-right">
+                                                <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                                                    <i class="fas fa-ellipsis-v"></i>
+                                                </a>
+                                                <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                                                    <a class="dropdown-item text-primary" href="javascript:void(0)"
+                                                        (click)="openEditModal(editModal,item)"> <i
+                                                            class="fas fa-pencil-alt"
+                                                            style="font-size: 13px;"></i>Editer</a>
+
+                                                    <ng-template #editModal let-modal>
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Editer L'Article du Panier</h4>
+                                                            <button type="button" class="close" aria-label="Close"
+                                                                (click)="close()">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <form class="needs-validation" [formGroup]="editForm">
+                                                                <div class="form-row">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="status">Status</label>
+                                                                        <select formControlName="status"
+                                                                            class="form-control" required>
+                                                                            <option value="">-- Sélectionner un statut
+                                                                                --</option>
+                                                                            <option value="en cours">En cours</option>
+                                                                            <option value="términé">Terminé</option>
+                                                                            <option value="annulé">Annulé</option>
+                                                                        </select>
+                                                                        <div *ngIf="editForm.get('status')?.invalid && (editForm.get('status')?.touched || editForm.get('status')?.dirty)"
+                                                                            class="text-danger small">
+                                                                            <div
+                                                                                *ngIf="editForm.get('status')?.errors?.['required']">
+                                                                                Le status est obligatoire.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="tel">Téléphone</label>
+                                                                        <input type="number" formControlName="tel"
+                                                                            class="form-control" required>
+                                                                        <div *ngIf="editForm.get('tel')?.invalid && (editForm.get('tel')?.touched || editForm.get('tel')?.dirty)"
+                                                                            class="text-danger small">
+                                                                            <div
+                                                                                *ngIf="editForm.get('tel')?.errors?.['required']">
+                                                                                Le téléphone est obligatoire.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="adress">Adresse du livre</label>
+                                                                        <input type="text" formControlName="adress"
+                                                                            class="form-control" required>
+                                                                        <div *ngIf="editForm.get('adress')?.invalid && (editForm.get('adress')?.touched || editForm.get('adress')?.dirty)"
+                                                                            class="text-danger small">
+                                                                            <div
+                                                                                *ngIf="editForm.get('adress')?.errors?.['required']">
+                                                                                L'adresse est obligatoire.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <!-- Ligne 2 -->
+                                                                <div class="form-row">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="ville">Ville</label>
+                                                                        <input type="text" formControlName="ville"
+                                                                            class="form-control" required />
+                                                                        <div *ngIf="editForm.get('ville')?.invalid && (editForm.get('ville')?.touched || editForm.get('ville')?.dirty)"
+                                                                            class="text-danger small">
+                                                                            <div
+                                                                                *ngIf="editForm.get('ville')?.errors?.['required']">
+                                                                                La ville est obligatoire.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-row">
+                                                                    <div class="form-group">
+                                                                        <label class="form-control-label"
+                                                                            for="total">Total</label>
+                                                                        <input type="number" formControlName="total"
+                                                                            class="form-control" required>
+                                                                        <div *ngIf="editForm.get('total')?.invalid && (editForm.get('total')?.touched || editForm.get('total')?.dirty)"
+                                                                            class="text-danger small">
+                                                                            <div
+                                                                                *ngIf="editForm.get('total')?.errors?.['required']">
+                                                                                Le total est obligatoire.
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                (click)="close()">Close</button>
+                                                            <button type="submit" (click)="editOrder(order.id)"
+                                                                class="btn btn-primary">Save
+                                                                changes</button>
+                                                        </div>
+                                                    </ng-template>
+                                                    <a class="dropdown-item text-success" href="javascript:void(0)"
+                                                        (click)="openDetailModal(detailModal,item)"> <i
+                                                            class="fas fa-eye" style="font-size: 13px;"></i>Détails</a>
+                                                    <ng-template #detailModal let-modal>
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">L'Article Du Panier
+                                                                {{item.id}}</h4>
+                                                            <button type="button" class="close" aria-label="Close"
+                                                                (click)="close()">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p><strong>Nom :</strong> {{ item.nom }}</p>
+                                                            <p><strong>Prénom :</strong> {{ item.prenom }}</p>
+                                                            <p><strong>Email :</strong> {{ item.email }}</p>
+                                                            <p><strong>Ville :</strong> {{ item.ville }} </p>
+                                                            <p><strong>Titre :</strong> {{item.titre}} </p>
+                                                            <p><strong>Auteur :</strong> {{item.auteur}} </p>
+                                                            <p><strong>Prix :</strong> {{item.prix}} </p>
+                                                            <p><strong>Quantité :</strong> {{item.quantite}} </p>
+                                                            <p><strong>Catégories :</strong> {{ item.categories.join(', ') }} </p>
+
+                                                            <!-- <p><strong>Catégorie :</strong> {{item}} </p> -->
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                (click)="close()">Close</button>
+                                                        </div>
+                                                    </ng-template>
+                                                    <a class="dropdown-item delete text-danger"
+                                                        href="javascript:void(0)"
+                                                        (click)="deleteCartItem(item.userId,item.bookId)"> <i
+                                                            class="fas fa-trash fa-sm" style="font-size: 13px;"></i>
+                                                        Supprimer</a>
+                                                </div>
+
+
+                                            </div>
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-footer py-4">
+                            <nav aria-label="...">
+                                <ul class="pagination justify-content-end mb-0">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                                            <i class="fas fa-angle-left"></i>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="javascript:void(0)">1</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="javascript:void(0)">2 <span
+                                                class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="javascript:void(0)">
+                                            <i class="fas fa-angle-right"></i>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

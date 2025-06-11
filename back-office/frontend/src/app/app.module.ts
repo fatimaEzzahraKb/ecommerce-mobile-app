@@ -24,6 +24,9 @@ import { CategoryAddComponent } from './pages/Category/category-add/category-add
 import { CategorieDetailsComponent } from './pages/Category/categorie-details/categorie-details.component';
 import { EditModalProductComponent } from './pages/products/edit-modal-product/edit-modal-product.component';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { CommandesComponent } from './pages/Order/commandes/commandes.component';
+import { OrderDetailsComponent } from './pages/Order/order-details/order-details.component';
+import { CartItemsComponent } from './pages/cart-items/cart-items.component';
 
 
 
@@ -50,17 +53,18 @@ import { NgxPaginationModule } from 'ngx-pagination';
  
     AdminLayoutComponent,
     AuthLayoutComponent,
-<<<<<<< HEAD
     ProductsComponent,
     UsersTableComponent,
-=======
->>>>>>> 9996da76cab20e075aa0972f9909f0da1cb3383c
+
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,
     CategoryAddComponent,
     CategorieDetailsComponent,
     EditModalProductComponent,
+    CommandesComponent,
+    OrderDetailsComponent,
+    CartItemsComponent,
   ],
   providers: [],
   bootstrap: [AppComponent]

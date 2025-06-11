@@ -120,12 +120,17 @@ export class ProductsComponent implements OnInit {
     if (this.editForm.invalid || !this.onFileChange) {
       return;
     }
+
     console.log(id);
     const formData = new FormData();
     formData.append("titre", this.editForm.value.titre);
     formData.append("auteur", this.editForm.value.auteur);
     formData.append("description", this.editForm.value.description);
     formData.append("prix", this.editForm.value.prix);
+
+    const categories = this.editForm.value.categories;
+    formData.append("categories", JSON.stringify(categories));
+
 
     if (this.selectedFile) {
       formData.append("image", this.selectedFile);
@@ -257,7 +262,6 @@ export class ProductsComponent implements OnInit {
       if (result.isConfirmed) {
         this.bookService.deleteBook(id).subscribe({
           next: res => {
-
             this.getAllBooks();
           },
           error: err => {
@@ -277,7 +281,7 @@ export class ProductsComponent implements OnInit {
   }
 
   openDetailModal(template: TemplateRef<any>) {
-  
+
     this.modalRef = this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title', backdrop: false });
   }
 

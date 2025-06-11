@@ -11,16 +11,22 @@ import { CategoriesComponent } from 'src/app/pages/Category/categories/categorie
 import { UserDetailsComponent } from 'src/app/pages/Users/user-details/user-details.component';
 import { CategoryAddComponent } from 'src/app/pages/Category/category-add/category-add.component';
 import { CategorieDetailsComponent } from 'src/app/pages/Category/categorie-details/categorie-details.component';
+import { CommandesComponent } from 'src/app/pages/Order/commandes/commandes.component';
+import { OrderDetailsComponent } from 'src/app/pages/Order/order-details/order-details.component';
+import { CartItemsComponent } from 'src/app/pages/cart-items/cart-items.component';
 
 export const AdminLayoutRoutes: Routes = [
-    { path: 'dashboard',      component: DashboardComponent },
-    { path: 'user-profile',   component: UserProfileComponent },
-    { path: 'tables',         component: TablesComponent },
-    { path: 'icons',          component: IconsComponent },
-    { path: 'maps',           component: MapsComponent },
-    { path: 'products',       component: ProductsComponent },
-    { path: 'users',          component: UsersTableComponent },
-    { path: 'users/:id',          component: UserDetailsComponent },
-    { path: 'categories',     component: CategoriesComponent },
-    { path: 'categories/:id',     component: CategorieDetailsComponent }
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'user-profile', component: UserProfileComponent },
+    { path: 'tables', component: TablesComponent },
+    { path: 'icons', component: IconsComponent },
+    { path: 'maps', component: MapsComponent },
+    { path: 'products', component: ProductsComponent },
+    { path: 'users', component: UsersTableComponent },
+    { path: 'users/:id', component: UserDetailsComponent },
+    { path: 'categories', component: CategoriesComponent },
+    { path: 'categories/:id', component: CategorieDetailsComponent },
+    { path: 'orders', component: CommandesComponent },
+    { path: 'orders/:id', component: OrderDetailsComponent },
+    { path: 'cartItems', component: CartItemsComponent },
 ];
