@@ -34,29 +34,39 @@ class _AuthScreenState extends State<AuthScreen> {
                     height: 30,
                   ),
                   Container(
-                    child: Text(
+                      child: Image.asset(
+                    "assets/logo.png",
+                    width: 200,
+                    height: 200,
+                    fit: BoxFit.cover,
+                  )
+                      /*Text(
                       'WELCOME',
                       style: TextStyle(
                           fontSize: 30,
                           color: Colors.black,
                           fontWeight: FontWeight.w400),
-                    ),
-                  ),
+                    ), */
+                      ),
                   SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       MaterialButton(
-                        color: !isLogin.value ? Colors.white : Colors.amber,
+                        color: !isLogin.value
+                            ? Colors.white
+                            : Color.fromRGBO(255, 210, 76, 1),
                         onPressed: () {
                           isLogin.value = false;
                         },
                         child: Text('Register'),
                       ),
                       MaterialButton(
-                        color: !isLogin.value ? Colors.white : Colors.amber,
+                        color: isLogin.value
+                            ? Colors.white
+                            : const Color.fromRGBO(255, 210, 76, 1),
                         onPressed: () {
                           isLogin.value = true;
                         },

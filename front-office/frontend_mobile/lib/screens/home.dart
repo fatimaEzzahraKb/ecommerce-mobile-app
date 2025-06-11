@@ -15,6 +15,50 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Container(
+              height: 200,
+              color: const Color.fromARGB(255, 253, 229, 232),
+              width: double.infinity,
+              child: Center(
+                child: Image.asset(
+                  "assets/logo.png",
+                  width: 200,
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.home),
+              title: Text('Home'),
+            ),
+            ListTile(
+              leading: Icon(Icons.category),
+              title: Text('Categories'),
+            ),
+            ListTile(
+              leading: Icon(Icons.shopping_cart),
+              title: Text('Cart'),
+            ),
+            ListTile(
+              leading: Icon(Icons.inventory_2),
+              title: Text('Orders'),
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () async {
+                final SharedPreferences? prefs = await _prefs;
+                prefs?.clear();
+                Get.offAll(AuthScreen());
+              },
+            )
+          ],
+        ),
+      ),
       appBar: AppBar(
         actions: [
           TextButton(
@@ -23,10 +67,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 prefs?.clear();
                 Get.offAll(AuthScreen());
               },
-              child: Text(
-                'logout',
-                style: TextStyle(color: Colors.white),
-              ))
+              child: Center(
+                  child: Image.asset(
+                "assets/logo_img.png",
+                width: 50,
+                height: 50,
+                fit: BoxFit.cover,
+              )))
         ],
       ),
       body: Center(

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const { ValidationError, UniqueConstraintError } = require('sequelize');
 async function register(req, res) {
   try {
-    const { nom, prenom, email,ville,pays, mdp } = req.body;
+    const { nom, prenom, email, ville, pays, mdp } = req.body;
 
     const salt = await bcrypt.genSalt(10);
 
@@ -17,22 +17,32 @@ async function register(req, res) {
       mdp: hashedPassword,
       ville,
       pays,
-      isAdmin:false,
+      isAdmin: false,
     });
+    const expiresIn = '90d';
+    const token = jwt.sign(
+      {
+        id: user.id,
+        nom: user.nom,
+        isAdmin: user.isAdmin
+      },
+      process.env.JWT_SECRET,
+      { expiresIn }
+    );
 
     res.status(201).json({
-  message: 'User created successfully',
-  data: {
-    Token: token,
-    user: {
-      id: user.id,
-      nom: user.nom,
-      prenom: user.prenom,
-      email: user.email,
-      isAdmin: user.isAdmin
-    }
-  }
-});
+      message: 'User created successfully',
+      data: {
+        Token: token,
+        user: {
+          id: user.id,
+          nom: user.nom,
+          prenom: user.prenom,
+          email: user.email,
+          isAdmin: user.isAdmin
+        }
+      }
+    });
   } catch (error) {
     if (error instanceof UniqueConstraintError) {
       return res.status(400).json({ message: "Cet email est déjà utilisé" })
@@ -62,7 +72,6 @@ async function login(req, res) {
       return res.status(400).json({ message: 'Invalid credentials' });
     }
 
-    // 3. Generate JWT token
     const expiresIn = '90d';
     const token = jwt.sign(
       {
@@ -95,7 +104,7 @@ async function login(req, res) {
 async function changePassword(req, res) {
   try {
     const { password, confirmPassword } = req.body;
-    const id =parseInt(req.params.id);
+    const id = parseInt(req.params.id);
     const user = await User.findByPk(id);
     if (user) {
       if (password === confirmPassword) {
@@ -103,7 +112,7 @@ async function changePassword(req, res) {
         const hashedPassword = await bcrypt.hash(password, salt);
         user.mdp = hashedPassword;
         await user.save();
-        return res.status(200).json({message:'Password is changed Succussfully!',user:user});
+        return res.status(200).json({ message: 'Password is changed Succussfully!', user: user });
       }
       else {
         return res.status(401).send('Passwords are not identique!');

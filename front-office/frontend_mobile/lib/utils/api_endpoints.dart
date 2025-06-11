@@ -1,5 +1,5 @@
 class ApiEndpoints {
-  static final String baseUrl = "http://localhost:5000/";
+  static final String baseUrl = "http://ip_adress:5000/";
   static _AuthEndPoints authEndPoints = _AuthEndPoints();
 }
 

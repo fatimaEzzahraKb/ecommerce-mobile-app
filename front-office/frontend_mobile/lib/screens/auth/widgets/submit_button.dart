@@ -27,7 +27,7 @@ class SubmitButton extends StatelessWidget {
                   side: BorderSide.none),
             ),
             backgroundColor: WidgetStateProperty.all<Color>(
-              Colors.pinkAccent,
+              const Color.fromARGB(255, 251, 108, 129),
             )),
         child: Text(
           title,
