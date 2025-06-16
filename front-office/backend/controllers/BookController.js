@@ -1,19 +1,14 @@
-const Book = require('../models/Books.model');
-const Category = require('../models/Category.model');
-const { get } = require('../routes');
+const {Book,Category} = require('../models/index.model');
 
 
-
-async function getBooks(req, res) {
+async function getAllBooks(req, res) {
  try {
-  const books = await Book.findAll({
-   include: {
+  const books = await Book.findAll({ include: {
     model: Category,
     as: 'categories',
     attributes: ['id', 'nom'],
     through: { attributes: [] }
-   }
-  });
+   }});
 
   res.status(200).json({
    message: "Liste des livres récupérée avec succès",
@@ -25,10 +20,11 @@ async function getBooks(req, res) {
  }
 }
 
+
 async function showBook(req, res) {
  try {
-  const id = parseInt(res.params.id);
-  const book = await Book.findAll({
+  const id = parseInt(req.params.id);
+  const book = await Book.findOne({
    where: { id: id },
    include: {
     model: Category,
@@ -42,7 +38,6 @@ if(!book){
  
 }
   return res.status(200).json({
-   message: "Liste des livres récupérée avec succès",
    book
   });
  } catch (error) {
@@ -53,4 +48,4 @@ if(!book){
 
 
 
-module.exports = { getBooks ,showBook};
+module.exports = { getAllBooks ,showBook};

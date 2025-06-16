@@ -8,6 +8,8 @@ require('dotenv').config();
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var authRouter = require('./routes/auth');
+var booksRouter = require("./routes/books");
+var categoriesRouter = require("./routes/categories");
 
 var app = express();
 
@@ -20,5 +22,7 @@ app.use(cors());
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/authentication', authRouter);
+app.use('/books',booksRouter);
+app.use('/categories',categoriesRouter);
 
 module.exports = app;

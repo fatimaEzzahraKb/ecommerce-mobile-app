@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend_mobile/screens/home.dart';
+import 'package:frontend_mobile/screens/client/mainClient.dart';
 import 'package:frontend_mobile/utils/api_endpoints.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -46,7 +46,7 @@ class RegisterController extends GetxController {
         villeController.clear();
         paysController.clear();
         mdpController.clear();
-        Get.off(HomeScreen());
+        Get.off(MainClient());
       } else {
         throw jsonDecode(response.body)['message'] ?? "Uknown Error Occured";
       }

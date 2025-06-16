@@ -28,6 +28,8 @@ const Book = sequelize.define("Books", {
         type: DataTypes.FLOAT,
         allowNull: false
     },
+},{
+    tableName:"Books"
 })
 
 

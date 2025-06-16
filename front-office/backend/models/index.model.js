@@ -12,8 +12,8 @@ Order.belongsTo(User, { foreignKey: "user_id" });
 Order.belongsToMany(Book,{through:OrderItem,foreignKey:"order_id",otherKey:"book_id"});
 Book.belongsToMany(Order,{through:OrderItem,foreignKey:"book_id",otherKey:"order_id"});
 
-Category.belongsToMany(Book,{through:Book_Category,foreignKey:"category_id",otherKey:"book_id"});
-Book.belongsToMany(Category,{through:Book_Category,foreignKey:"book_id",otherKey:"category_id"});
+Category.belongsToMany(Book,{through:Book_Category,foreignKey:"category_id",otherKey:"book_id",as:"books"});
+Book.belongsToMany(Category,{through:Book_Category,foreignKey:"book_id",otherKey:"category_id",as:"categories"});
 
 module.exports = {
   sequelize,
@@ -21,5 +21,6 @@ module.exports = {
   Category,
   Order,
   Book,
-  OrderItem
+  OrderItem,
+  Book_Category
 };

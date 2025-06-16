@@ -29,12 +29,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors()); // Enable CORS for all origins
-app.use(express.json()); // Parse JSON request bodies
+app.use(cors());
+app.use(express.json()); 
 
 
 
-require('./models/Category.model');
+
 
 app.use('/', indexRouter);
 app.use("/dashboard",dashboardRouter);

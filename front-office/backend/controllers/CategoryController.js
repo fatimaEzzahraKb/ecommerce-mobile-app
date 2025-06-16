@@ -1,18 +1,23 @@
 const Book = require("../models/Books.model");
 const Category = require("../models/Category.model");
 
-async function getBooksByCategory(req, res) {
+async function getAllCategory(req, res) {
  try {
-  const category = await Category.findAll({
+  const categories = await Category.findAll({
    include: {
     model: Book,
     as: 'books',
+    include:{
+     model:Category,
+     as:'categories',
+    attributes: ['id', 'nom'],
+    }
    }
   });
 
   res.status(200).json({
    message: "Liste des livres récupérée avec succès",
-   category
+   categories
   });
  } catch (error) {
   console.log(error);
@@ -20,4 +25,18 @@ async function getBooksByCategory(req, res) {
  }
 }
 
-module.exports = {getBooksByCategory}
+async function getCategoryBooks(req, res) {
+ try {
+  const id = req.params.id;
+  const category_books = await Category.findOne({ id: id, include: { model: Book, as: 'books' } })
+  if(!category_books){
+   return res.status(404).json({message:'Category not found!'});
+  }
+  return res.status(200).json({message:'Categorie récupérée avec succès',category_books:category_books});
+ }
+ catch (e) {
+  console.log(e);
+  return res.status(500).json({message:'Un problème est sérvenue',error:e});
+ }
+}
+module.exports = { getAllCategory,getCategoryBooks }

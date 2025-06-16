@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:frontend_mobile/screens/home.dart';
+import 'package:frontend_mobile/screens/client/mainClient.dart';
 import 'package:frontend_mobile/utils/api_endpoints.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,7 +35,7 @@ class LoginController extends GetxController {
 
         emailController.clear();
         mdpController.clear();
-        Get.off(HomeScreen());
+        Get.off(MainClient());
       } else {
         final error = jsonDecode(response.body);
         throw error['message'] ?? error.toString();
