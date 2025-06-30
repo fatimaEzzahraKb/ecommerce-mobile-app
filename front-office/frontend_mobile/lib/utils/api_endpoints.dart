@@ -1,6 +1,6 @@
 class ApiEndpoints {
-  static final String baseUrl = "http://adress_ip:5000/";
-  static final String imagesBaseUrl = "http://adress_ip:3000/uploads/";
+  static final String baseUrl = "http://192.168.1.39:5000/";
+  static final String imagesBaseUrl = "http://192.168.1.39:3000/uploads/";
   static _AuthEndPoints authEndPoints = _AuthEndPoints();
   static _BooksEndPoints booksEndPoints = _BooksEndPoints();
   static _CategoriesEndPoints categoriesEndPoints = _CategoriesEndPoints();

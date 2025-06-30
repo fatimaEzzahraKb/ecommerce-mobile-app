@@ -31,7 +31,11 @@ export class ProductsComponent implements OnInit {
 
 
   });
+  scanningBookId: number = 0;
 
+  scanForm: FormGroup = new FormGroup({
+    device_id: new FormControl("", [Validators.required]),
+  })
   onCategoryChange(event: any) {
     const selectedCategories = this.bookForm.get('categories')!.value || [];
     const categoryId = +event.target.value;
@@ -79,7 +83,22 @@ export class ProductsComponent implements OnInit {
   ) {
 
   }
+  scanBook() {
+    console.log(this.scanningBookId);
+    if (this.scanForm.invalid ) {
+      return;
+    }
+    this.bookService.startScan(this.scanningBookId, this.scanForm.get("device_id").value).subscribe(
+      (res:any)=>{
+        
+        console.log('stored successfully');
+      },
+      (error)=>{
+        console.log(error);
+      }
+    ); 
 
+  }
   getCategories() {
     this.categoryService.loadCategories().subscribe(
       (res: any) => {
@@ -105,7 +124,10 @@ export class ProductsComponent implements OnInit {
       })
     this.modalRef = this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title', backdrop: false });
   }
-
+  openScanModal(template: TemplateRef<any>, book_id: number) {
+    this.scanningBookId = book_id;
+    this.modalRef = this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title', backdrop: false })
+  }
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {
@@ -184,14 +206,23 @@ export class ProductsComponent implements OnInit {
     this.modalRef.close();
   }
 
+  /*   onSelectedFile(event: any) {
+      console.log("onSelectedFile appelé", event);
+      const file: File = event.target.files[0];
+      if (file) {
+        this.selectedFile = file;
+        console.log("fichier selectionné", file);
+      }
+  
+    } */
   onSelectedFile(event: any) {
-    console.log("onSelectedFile appelé", event);
-    const file: File = event.target.files[0];
-    if (file) {
-      this.selectedFile = file;
-      console.log("fichier selectionné", file);
+    const fileName = event.target.files[0]?.name;
+    if (fileName) {
+      const label = document.querySelector('.custom-file-label');
+      if (label) {
+        label.innerHTML = fileName;
+      }
     }
-
   }
 
   onUserSave() {

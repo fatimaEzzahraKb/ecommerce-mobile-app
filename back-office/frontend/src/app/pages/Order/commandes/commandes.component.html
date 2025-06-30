@@ -21,6 +21,7 @@
                     <th scope="col">Adresse</th>
                     <th scope="col">Ville</th>
                     <th scope="col">Total</th>
+                    <th scope="col">Actions</th>
 
                   </tr>
                 </thead>
@@ -150,10 +151,10 @@
                           </ng-template>
                           <a class="dropdown-item text-success" href="javascript:void(0)"
                             (click)="openDetailModal(detailModal,order)"> <i class="fas fa-eye"
-                              style="font-size: 13px;"></i>Livres</a>
+                              style="font-size: 13px;"></i>Détails</a>
                           <ng-template #detailModal let-modal>
                             <div class="modal-header">
-                              <h4 class="modal-title">L'utilisateur de la Commande {{order.id}}</h4>
+                              <h4 class="modal-title">Détails  </h4>
                               <button type="button" class="close" aria-label="Close" (click)="close()">
                                 <span aria-hidden="true">&times;</span>
                               </button>

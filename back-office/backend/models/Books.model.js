@@ -28,6 +28,10 @@ const Book = sequelize.define("Books", {
         type: DataTypes.FLOAT,
         allowNull: false
     },
+    quantite:{
+        type:DataTypes.INTEGER,
+        defaultValue:0
+    }
 })
 
 

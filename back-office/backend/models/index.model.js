@@ -5,6 +5,7 @@ const Order = require('./Order.model');
 const OrderItem = require("./OrderItem.model");
 const Book = require("./Books.model");
 const Book_Category = require('./book_category.model');
+const Book_Copy = require('./book_copy');
 User.hasMany(Order, { foreignKey: "user_id" });
 Order.belongsTo(User, { foreignKey: "user_id" });
 
@@ -15,11 +16,15 @@ Book.belongsToMany(Order,{through:OrderItem,foreignKey:"book_id",otherKey:"order
 Category.belongsToMany(Book,{through:Book_Category,foreignKey:"category_id",otherKey:"book_id"});
 Book.belongsToMany(Category,{through:Book_Category,foreignKey:"book_id",otherKey:"category_id"});
 
+Book.hasMany(Book_Copy,{foreignKey:"book_id"});
+Book_Copy.belongsTo(Book,{foreignKey:"book_id"});
+
 module.exports = {
   sequelize,
   User,
   Category,
   Order,
   Book,
-  OrderItem
+  OrderItem,
+  Book_Copy
 };

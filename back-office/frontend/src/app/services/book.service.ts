@@ -28,6 +28,9 @@ export class BookService {
     formData
   );
 }
+  startScan(book_id:number,device_id:number){
+    return this.http.post(`${this.apiUrl}/start-scan`,{book_id,device_id});
+  }
 
   
   
