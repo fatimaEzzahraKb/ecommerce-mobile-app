@@ -21,7 +21,7 @@ require('./models/Category.model');
 // DB
 
 const { initDb } = require('./config/db');
-initDb();
+// initDb();
 
 // Middlewares
 app.use(logger('dev'));

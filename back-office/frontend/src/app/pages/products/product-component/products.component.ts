@@ -36,6 +36,7 @@ export class ProductsComponent implements OnInit {
   scanForm: FormGroup = new FormGroup({
     device_id: new FormControl("", [Validators.required]),
   })
+  isConnected: boolean = false;
   onCategoryChange(event: any) {
     const selectedCategories = this.bookForm.get('categories')!.value || [];
     const categoryId = +event.target.value;
@@ -90,7 +91,7 @@ export class ProductsComponent implements OnInit {
     }
     this.bookService.startScan(this.scanningBookId, this.scanForm.get("device_id").value).subscribe(
       (res:any)=>{
-        
+        this.isConnected = true;
         console.log('stored successfully');
       },
       (error)=>{
@@ -98,6 +99,20 @@ export class ProductsComponent implements OnInit {
       }
     ); 
 
+  }
+   closeScanModal() {
+    this.modalRef.close();
+    if(this.isConnected){
+      this.bookService.endScan( this.scanForm.get("device_id").value).subscribe(
+      (res:any)=>{
+        this.isConnected = false;
+        console.log('disconnected successfully');
+      },
+      (error)=>{
+        console.log(error);
+      }
+    ); 
+    }
   }
   getCategories() {
     this.categoryService.loadCategories().subscribe(
