@@ -28,10 +28,11 @@ class LoginController extends GetxController {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         var token = json['token'];
-        print(token);
-        final SharedPreferences? prefs = await _prefs;
+        var userId = json['user']['id']; // <-- adapte selon ta réponse API
 
+        final SharedPreferences? prefs = await _prefs;
         await prefs?.setString('token', token);
+        await prefs?.setInt('user_id', userId); // <-- sauvegarde user_id
 
         emailController.clear();
         mdpController.clear();
@@ -43,14 +44,15 @@ class LoginController extends GetxController {
     } catch (e) {
       Get.back();
       showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return SimpleDialog(
-              title: Text('Error'),
-              contentPadding: EdgeInsets.all(20),
-              children: [Text(e.toString())],
-            );
-          });
+        context: Get.context!,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text('Erreur'),
+            contentPadding: EdgeInsets.all(20),
+            children: [Text(e.toString())],
+          );
+        },
+      );
     }
   }
 }

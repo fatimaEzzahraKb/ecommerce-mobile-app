@@ -10,8 +10,8 @@ class CartController extends GetxController {
 
   /// Appelle l’API POST /cart
   Future<void> addToCart({required int bookId, int quantity = 1}) async {
+    isLoading.value = true;
     try {
-      // Récupérer le token JWT stocké après login / register
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
       if (token == null) {
@@ -19,37 +19,30 @@ class CartController extends GetxController {
         return;
       }
 
-      // Préparer l’URL et le body
       final url = Uri.parse('${ApiEndpoints.baseUrl}cart');
       final body = jsonEncode({
         'book_id': bookId,
         'quantite': quantity,
       });
 
-      // Appel HTTP
-      final response = await http.post(
-        url,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $token',
-        },
-        body: body,
-      );
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
+          body: body);
 
       if (response.statusCode == 200) {
-        Get.snackbar(
-          'Succès',
-          'Livre ajouté au panier !',
-          snackPosition: SnackPosition.BOTTOM,
-        );
-        await fetchCartItems();
+        Get.snackbar('Succès', 'Livre ajouté au panier !',
+            snackPosition: SnackPosition.BOTTOM);
+        await fetchCartItems(); // Met à jour la liste locale
       } else {
-        final msg = jsonDecode(response.body)['message'] ??
-            "Erreur lors de l'ajout au panier";
+        final decoded = jsonDecode(response.body);
+        final msg = decoded['message'] ?? decoded['error'] ?? 'Erreur inconnue';
         Get.snackbar('Erreur', msg, snackPosition: SnackPosition.BOTTOM);
       }
     } catch (e) {
-      Get.snackbar('Erreur', e.toString());
+      Get.snackbar('Erreur', 'Une erreur est survenue : $e');
     } finally {
       isLoading.value = false;
     }
@@ -158,7 +151,9 @@ class CartController extends GetxController {
 
       if (response.statusCode == 200) {
         Get.snackbar('Succès', 'Quantité mise à jour avec succès');
-        await fetchCartItems(); // ⚠️ Recharge le panier pour voir le changement
+        // Ferme d'abord le dialog
+        Get.back(); // <<<<< ajoute ça ici si tu peux accéder au contexte Get
+        await fetchCartItems(); // Recharge le panier après
       } else {
         final msg = jsonDecode(response.body)['message'] ??
             "Erreur lors de la mise à jour";
@@ -171,16 +166,13 @@ class CartController extends GetxController {
     }
   }
 
-
-
   double getTotal() {
-  double total = 0.0;
-  for (var item in cartItems) {
-    final prix = item['prix'] ?? 0;
-    final quantite = item['cartItems']?['quantite'] ?? 1;
-    total += prix * quantite;
+    double total = 0.0;
+    for (var item in cartItems) {
+      final prix = item['prix'] ?? 0;
+      final quantite = item['cartItems']?['quantite'] ?? 1;
+      total += prix * quantite;
+    }
+    return total;
   }
-  return total;
-}
-
 }

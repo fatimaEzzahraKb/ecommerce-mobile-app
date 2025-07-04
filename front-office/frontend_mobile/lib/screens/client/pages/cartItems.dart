@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:frontend_mobile/controllers/cartItems_controller.dart';
 import 'package:frontend_mobile/controllers/orders_controller.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 
 class CartPage extends StatefulWidget {
   const CartPage({Key? key}) : super(key: key);
@@ -33,6 +34,97 @@ class _CartPageState extends State<CartPage> {
     } else {
       setState(() => _userConnected = false);
     }
+  }
+
+  Future<void> displayPaymentSheet(BuildContext context) async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      await showDialog(
+        context: context,
+        builder: (_) => const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.check_circle, color: Colors.green, size: 100),
+              SizedBox(height: 10),
+              Text("Paiement réussi !"),
+            ],
+          ),
+        ),
+      );
+    } on StripeException catch (e) {
+      await showDialog(
+        context: context,
+        builder: (_) => const AlertDialog(
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.cancel, color: Colors.red),
+                  SizedBox(width: 8),
+                  Text("Paiement échoué"),
+                ],
+              ),
+            ],
+          ),
+        ),
+      );
+      throw Exception('Paiement échoué: ${e.error.localizedMessage}');
+    } catch (e) {
+      print('Erreur inattendue: $e');
+      throw Exception('Erreur inattendue pendant le paiement');
+    }
+  }
+
+  Future<void> handleQuantityUpdate(
+      Map book, TextEditingController quantityController) async {
+    final input = quantityController.text.trim();
+
+    if (input.isEmpty || int.tryParse(input) == null || int.parse(input) <= 0) {
+      Get.snackbar('Erreur', 'Entrez une quantité valide (>= 1)');
+      return;
+    }
+
+    int newQuantity = int.parse(input);
+
+    try {
+      await cartController.updateQuantity(
+          bookId: book['id'], quantity: newQuantity);
+      await Future.delayed(const Duration(milliseconds: 100));
+      Get.back(); // Fermer le dialog après la mise à jour réussie
+    } catch (e) {
+      Get.snackbar('Erreur', 'Erreur lors de la mise à jour');
+    }
+  }
+
+  void showQuantityDialog(Map book) {
+    final TextEditingController quantityController = TextEditingController(
+      text: (book['cartItems']?['quantite'] ?? '1').toString(),
+    );
+
+    Get.defaultDialog(
+      title: 'Modifier la quantité',
+      content: Column(
+        children: [
+          TextField(
+            controller: quantityController,
+            keyboardType: TextInputType.number,
+            decoration: const InputDecoration(
+              labelText: 'Quantité',
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              handleQuantityUpdate(book, quantityController);
+            },
+            child: const Text('Mettre à jour'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _showOrderForm() {
@@ -82,21 +174,29 @@ class _CartPageState extends State<CartPage> {
 
               final totalAmount = cartController.getTotal();
 
-              final successOrder = await orderController.sendOrder(
-                telephone: tel,
-                adresse: addr,
-                ville: city,
-                total: totalAmount,
-                products: List<Map<String, dynamic>>.from(
-                    cartController.cartItems.toList()),
-              );
-              if (successOrder) {
-                Get.back(); // Fermer le dialogue
-                Get.snackbar('Succès', 'Commande passée avec succès');
-                cartController.cartItems.clear();
-              } else {
-                Get.snackbar(
-                    'Erreur', 'Erreur lors de la création de la commande');
+              try {
+                // 1) Lancer la feuille de paiement Stripe
+                await displayPaymentSheet(context);
+
+                // 2) Enregistrer la commande uniquement si paiement réussi
+                final successOrder = await orderController.sendOrder(
+                  telephone: tel,
+                  adresse: addr,
+                  ville: city,
+                  total: totalAmount,
+                  products: List<Map<String, dynamic>>.from(
+                      cartController.cartItems.toList()),
+                );
+                if (successOrder) {
+                  Get.back(); // Fermer le dialogue
+                  Get.snackbar('Succès', 'Commande passée avec succès');
+                  cartController.cartItems.clear();
+                } else {
+                  Get.snackbar(
+                      'Erreur', 'Erreur lors de la création de la commande');
+                }
+              } catch (e) {
+                Get.snackbar('Erreur', e.toString());
               }
             },
             child: const Text("Confirmer la commande"),
@@ -146,9 +246,20 @@ class _CartPageState extends State<CartPage> {
                   itemCount: cartController.cartItems.length,
                   itemBuilder: (context, index) {
                     final book = cartController.cartItems[index];
-                    return Card(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8, horizontal: 16),
+                    return Container(
+                      margin:
+                          const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 5,
+                            offset: Offset(0, 3),
+                          ),
+                        ],
+                      ),
                       child: ListTile(
                         title: Text(book['titre'] ?? 'Titre inconnu'),
                         subtitle: Text(
@@ -159,46 +270,7 @@ class _CartPageState extends State<CartPage> {
                             IconButton(
                               icon: const Icon(Icons.edit),
                               onPressed: () {
-                                final TextEditingController qtyController =
-                                    TextEditingController(
-                                  text: book['cartItems']?['quantite']
-                                          ?.toString() ??
-                                      '1',
-                                );
-
-                                Get.defaultDialog(
-                                  title: "Modifier la quantité",
-                                  content: Column(
-                                    children: [
-                                      TextField(
-                                        controller: qtyController,
-                                        keyboardType: TextInputType.number,
-                                        decoration: const InputDecoration(
-                                          labelText: "Nouvelle quantité",
-                                          border: OutlineInputBorder(),
-                                        ),
-                                      ),
-                                      const SizedBox(height: 20),
-                                      ElevatedButton(
-                                        onPressed: () {
-                                          final newQty =
-                                              int.tryParse(qtyController.text);
-                                          if (newQty != null && newQty > 0) {
-                                            cartController.updateQuantity(
-                                              bookId: book['id'],
-                                              quantity: newQty,
-                                            );
-                                            Get.back();
-                                          } else {
-                                            Get.snackbar(
-                                                "Erreur", "Quantité invalide");
-                                          }
-                                        },
-                                        child: const Text("Enregistrer"),
-                                      ),
-                                    ],
-                                  ),
-                                );
+                                showQuantityDialog(book);
                               },
                             ),
                             IconButton(
@@ -220,8 +292,7 @@ class _CartPageState extends State<CartPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _showOrderForm,
-                    style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.all(16)),
+                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16)),
                     child: const Text("Commander maintenant"),
                   ),
                 ),
