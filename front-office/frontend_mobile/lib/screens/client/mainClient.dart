@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_mobile/screens/auth/auth_screen.dart';
 import 'package:frontend_mobile/screens/client/pages/book_details.dart';
+import 'package:frontend_mobile/screens/client/pages/cartItems.dart';
 import 'package:frontend_mobile/screens/client/pages/categories.dart';
 import 'package:frontend_mobile/screens/client/pages/category_books.dart';
 import 'package:frontend_mobile/screens/client/pages/homePage.dart';
@@ -18,7 +19,7 @@ class _MainClientState extends State<MainClient> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = const [HomePage(), Categories()];
+  final List<Widget> _pages = const [HomePage(), Categories(), CartPage()];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -63,6 +64,9 @@ class _MainClientState extends State<MainClient> {
               ListTile(
                 leading: Icon(Icons.shopping_cart),
                 title: Text('Cart'),
+                onTap: () {
+                  _onItemTapped(2);
+                },
               ),
               ListTile(
                 leading: Icon(Icons.inventory_2),
