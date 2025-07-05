@@ -30,7 +30,8 @@ export class SidebarComponent implements OnInit {
 
   public menuItems: any[];
   public isCollapsed = true;
-
+  public user : any ;
+  public username : String = "";
   constructor(private router: Router) { }
 
   ngOnInit() {
@@ -38,5 +39,13 @@ export class SidebarComponent implements OnInit {
     this.router.events.subscribe((event) => {
       this.isCollapsed = true;
    });
+      this.user = JSON.parse(localStorage.getItem("user"));
+    this.username = this.user.prenom +" "+ this.user.nom;
+  }
+    logout(){
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.router.navigateByUrl("login");
+    
   }
 }

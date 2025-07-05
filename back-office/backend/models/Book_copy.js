@@ -9,7 +9,7 @@ const Book_Copy = sequelize.define("bookCopies",{
   allowNull:false
  },
  uid:{
-  type:DataTypes.INTEGER,
+  type:DataTypes.STRING,
   unique:true,
   allowNull:false
  },

@@ -135,6 +135,7 @@
                   <th scope="col">Déscription</th>
                   <th scope="col">Prix</th>
                   <th scope="col">Catégorie(s)</th>
+                  <th scope="col">Quantité</th>
                   <!-- <th scope="col">Détails</th>
                   <th scope="col">Modifier</th>
                   <th scope="col">Supprimer</th> -->
@@ -169,15 +170,28 @@
                       <p>_</p>
                     </div>
                   </td>
-
-
-
-
-
-                  <td>
-                    <button class="btn btn-primary w-100" (click)="openDetailModal(detailModal,book)">
-                      <i class="bi bi-eye"></i>
-                    </button>
+                  <td> {{book.quantite}} </td>
+                  <!-- Start drop down -->
+                  <td class="text-right">
+                      <div ngbDropdown placement="bottom-right">
+                        <a class="btn btn-sm btn-icon-only text-light" ngbDropdownToggle>
+                          <i class="fas fa-ellipsis-v"></i>
+                        </a>
+                        <div ngbDropdownMenu class=" dropdown-menu-right dropdown-menu-arrow">
+                          <a class="dropdown-item text-success" href="javascript:void(0)" (click)="openDetailModal(detailModal,book)" > 
+                            <i class="fas fa-eye" style="font-size: 13px;"></i>Details</a>
+                          <a class="dropdown-item text-primary" href="javascript:void(0)"  (click)="openEditModal(editModal,book)"> 
+                            <i class="fas fa-pencil-alt" style="font-size: 13px;"></i>Editer</a>
+                          <a class="dropdown-item text-primary" href="javascript:void(0)"  (click)="openScanModal(scanModal,book.id)">
+                             <i class="bi bi-journal-bookmark" style="font-size: 13px;"></i>Scanner</a>
+                          <a class="dropdown-item delete text-danger" href="javascript:void(0)"  (click)="onDeleteBook(book.id)"> 
+                            <i class="fas fa-trash fa-sm " style="font-size: 13px;"></i> Supprimer</a>
+                        </div>
+                      </div>
+                    </td>
+                  <!-- End drop down -->
+                   <!-- Modals -->
+                      <!-- detail modal -->
                     <ng-template #detailModal let-modal>
                       <div class="modal-header">
                         <h4 class="modal-title">Détails du Livre {{book.titre}}</h4>
@@ -209,11 +223,8 @@
                         <button type="button" class="btn btn-secondary" (click)="close()">Close</button>
                       </div>
                     </ng-template>
-                  </td>
-                  <td>
-                    <button class="btn btn-primary w-100" (click)="openEditModal(editModal,book)">
-                      <i class="bi bi-pencil-square"></i>
-                    </button>
+                      <!-- edit modal -->
+                       
                     <ng-template #editModal let-modal>
                       <div class="modal-header">
                         <h4 class="modal-title">Editer La Catégorie</h4>
@@ -224,7 +235,6 @@
                       <div class="modal-body">
                         <form class="needs-validation" [formGroup]="editForm">
 
-                          <!-- Ligne 1 -->
                           <div class="form-row">
                             <div class="form-group">
                               <label class="form-control-label" for="titre">Titre du livre</label>
@@ -329,14 +339,12 @@
                         <button type="submit" (click)="editBook(book.id)" class="btn btn-primary">Save changes</button>
                       </div>
                     </ng-template>
-                  </td>
 
-                  <td>
-                    <button class="btn btn-primary w-100">
-                      <i class="bi bi-journal-bookmark" (click)="openScanModal(scanModal,book.id)"></i>
-                    </button>
+                      <!-- scan modal -->
+                       
                     <ng-template #scanModal let-modal>
-                      <div class="modal-header">
+                      <div *ngIf="!isConnected; else connectedBlock">
+                        <div class="modal-header">
                         <h4 class="modal-title">Scanner des exemplaires</h4><button type="button" class="close"
                           aria-label="Close" (click)="close()">
                           <span aria-hidden="true">&times;</span>
@@ -363,8 +371,35 @@
                         <button type="button" class="btn btn-secondary" (click)="close()">Fermer</button>
                         <button type="submit" (click)="scanBook()" class="btn btn-primary">Connecter</button>
                       </div>
+                    </div>
+                        <ng-template #connectedBlock>
+                        <div class="p-4">
+                          <h5 class="text-success">✅ Appareil connecté avec succès !</h5>
+                          <p>Vous pouvez commancer le scan maintenant </p>
+                          <button class="btn btn-danger mt-3" (click)="closeScanModal()">Fermer</button>
+                        </div>
+                      </ng-template>
                     </ng-template>
+                  <!-- Details -->
+                  <td>
+                    <button class="btn btn-primary w-100" (click)="openDetailModal(detailModal,book)">
+                      <i class="bi bi-eye"></i>
+                    </button>
                   </td>
+                  <!-- Edit  -->
+                  <td>
+                    <button class="btn btn-primary w-100" (click)="openEditModal(editModal,book)">
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    
+                  </td>
+                  <!-- Scan -->
+                  <td>
+                    <button class="btn btn-primary w-100">
+                      <i class="bi bi-journal-bookmark" (click)="openScanModal(scanModal,book.id)"></i>
+                    </button>
+                  </td>
+                  <!-- Delete -->
                   <td>
                     <button class="btn btn-primary w-100" (click)="onDeleteBook(book.id)">
                       <i class="bi bi-trash"></i>
