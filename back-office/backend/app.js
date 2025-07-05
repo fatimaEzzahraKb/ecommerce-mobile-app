@@ -7,6 +7,7 @@ var path = require('path');
 
 var app = express();
 
+const { initDb, sequelize } = require('./config/db');
 // Routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -20,8 +21,10 @@ require('./models/Category.model');
 
 // DB
 
-const { initDb } = require('./config/db');
 initDb();
+
+// sequelize.sync({ alter: true });
+
 
 // Middlewares
 app.use(logger('dev'));

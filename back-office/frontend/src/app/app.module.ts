@@ -1,7 +1,8 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';      // IMPORTANT
 import { NgModule } from '@angular/core';
-import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
@@ -16,7 +17,7 @@ import { ComponentsModule } from './components/components.module';
 import { ProductsComponent } from './pages/products/product-component/products.component';
 
 import { LogInComponent } from './pages/log-in/log-in.component';
-import { DatePipe, NgFor, UpperCasePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { UsersTableComponent } from './pages/Users/users-table/users-table.component';
 import { CategoriesComponent } from './pages/Category/categories/categories.component';
 import { UserDetailsComponent } from './pages/Users/user-details/user-details.component';
@@ -28,34 +29,25 @@ import { CommandesComponent } from './pages/Order/commandes/commandes.component'
 import { OrderDetailsComponent } from './pages/Order/order-details/order-details.component';
 import { CartItemsComponent } from './pages/cart-items/cart-items.component';
 
-
-
-
 @NgModule({
   imports: [
+    BrowserModule,            // Ajouté ici
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     ComponentsModule,
     NgbModule,
     RouterModule,
     AppRoutingModule,
-    NgFor,
-    RouterModule,
-    UpperCasePipe,
-    DatePipe,
-    ReactiveFormsModule,
     NgxPaginationModule,
-    ReactiveFormsModule,
   ],
   declarations: [
     AppComponent,
- 
     AdminLayoutComponent,
     AuthLayoutComponent,
     ProductsComponent,
     UsersTableComponent,
-
     LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,
@@ -66,7 +58,9 @@ import { CartItemsComponent } from './pages/cart-items/cart-items.component';
     OrderDetailsComponent,
     CartItemsComponent,
   ],
-  providers: [],
+  providers: [
+    DatePipe                 // Ici dans providers, si tu en as besoin en TS
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_mobile/controllers/payment_controller.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,8 @@ class CartPage extends StatefulWidget {
 class _CartPageState extends State<CartPage> {
   final CartController cartController = Get.put(CartController());
   final OrderController orderController = Get.put(OrderController());
+  final PaymentController paymentController = Get.put(PaymentController());
+
 
   bool _userConnected = true;
 
@@ -175,26 +178,28 @@ class _CartPageState extends State<CartPage> {
               final totalAmount = cartController.getTotal();
 
               try {
-                // 1) Lancer la feuille de paiement Stripe
-                await displayPaymentSheet(context);
+                // Appeler makePayment avec un callback
+                await paymentController.makePayment(
+                  onPaymentSuccess: () async {
+                    Get.until((route) => Get.isDialogOpen != true);
+                    final successOrder = await orderController.sendOrder(
+                      telephone: tel,
+                      adresse: addr,
+                      ville: city,
+                      total: totalAmount,
+                      products: List<Map<String, dynamic>>.from(
+                          cartController.cartItems.toList()),
+                    );
 
-                // 2) Enregistrer la commande uniquement si paiement réussi
-                final successOrder = await orderController.sendOrder(
-                  telephone: tel,
-                  adresse: addr,
-                  ville: city,
-                  total: totalAmount,
-                  products: List<Map<String, dynamic>>.from(
-                      cartController.cartItems.toList()),
+                    if (successOrder) {
+                      // Get.back();
+                      Get.snackbar('Succès', 'Commande passée avec succès');
+                      cartController.cartItems.clear();
+                    } else {
+                      Get.snackbar('Erreur', 'Erreur lors de la commande');
+                    }
+                  },
                 );
-                if (successOrder) {
-                  Get.back(); // Fermer le dialogue
-                  Get.snackbar('Succès', 'Commande passée avec succès');
-                  cartController.cartItems.clear();
-                } else {
-                  Get.snackbar(
-                      'Erreur', 'Erreur lors de la création de la commande');
-                }
               } catch (e) {
                 Get.snackbar('Erreur', e.toString());
               }
@@ -247,8 +252,8 @@ class _CartPageState extends State<CartPage> {
                   itemBuilder: (context, index) {
                     final book = cartController.cartItems[index];
                     return Container(
-                      margin:
-                          const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      margin: const EdgeInsets.symmetric(
+                          vertical: 8, horizontal: 16),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -292,7 +297,8 @@ class _CartPageState extends State<CartPage> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: _showOrderForm,
-                    style: ElevatedButton.styleFrom(padding: const EdgeInsets.all(16)),
+                    style: ElevatedButton.styleFrom(
+                        padding: const EdgeInsets.all(16)),
                     child: const Text("Commander maintenant"),
                   ),
                 ),
