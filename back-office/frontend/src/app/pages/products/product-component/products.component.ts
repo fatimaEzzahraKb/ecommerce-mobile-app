@@ -21,6 +21,12 @@ export class ProductsComponent implements OnInit {
 
   page: number = 1;
 
+  booksTablePage: any[] = [];
+  pagesAmount:number[]=[];
+  pages:number = 0;
+  booksPerPage:number =5;
+  currentPage:number = 1;
+
   bookForm: FormGroup = new FormGroup({
     titre: new FormControl("", [Validators.required]),
     auteur: new FormControl("", [Validators.required]),
@@ -84,6 +90,21 @@ export class ProductsComponent implements OnInit {
   ) {
 
   }
+
+  // Pagination
+paginate(page:number){
+    const start = (page-1)*this.booksPerPage;
+    const end =page * this.booksPerPage;
+    this.booksTablePage = this.books.slice(start,end);
+    this.currentPage = page;
+  }
+  PrevNext(path:string){
+    this.currentPage= path==="prev" ? this.currentPage-1 : this.currentPage+1;
+    const start = (this.currentPage-1)*this.booksPerPage;
+    const end =this.currentPage * this.booksPerPage;
+    this.booksTablePage = this.books.slice(start,end);
+  }
+  // 
   scanBook() {
     console.log(this.scanningBookId);
     if (this.scanForm.invalid ) {
@@ -138,6 +159,9 @@ export class ProductsComponent implements OnInit {
         categories: book.categories.map((c: any) => c.id)
       })
     this.modalRef = this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title', backdrop: false });
+  }
+  openAddModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.open(template, { ariaLabelledBy: 'modal-basic-title', backdrop: false })
   }
   openScanModal(template: TemplateRef<any>, book_id: number) {
     this.scanningBookId = book_id;
@@ -232,6 +256,7 @@ export class ProductsComponent implements OnInit {
     } */
   onSelectedFile(event: any) {
     const fileName = event.target.files[0]?.name;
+       this.selectedFile = event.target.files[0];
     if (fileName) {
       const label = document.querySelector('.custom-file-label');
       if (label) {
@@ -242,8 +267,10 @@ export class ProductsComponent implements OnInit {
 
   onUserSave() {
     this.bookForm.markAllAsTouched();
-
     if (this.bookForm.invalid || !this.selectedFile) {
+      console.log("books form",this.bookForm);
+      console.log("selected file",this.selectedFile);
+
       return;
     }
     const formData = new FormData();
@@ -258,6 +285,7 @@ export class ProductsComponent implements OnInit {
     if (selectedCategories && selectedCategories.length > 0) {
       selectedCategories.forEach(catId => {
         formData.append('categories[]', catId.toString());
+
       });
     }
 
@@ -265,8 +293,10 @@ export class ProductsComponent implements OnInit {
       next: res => {
         console.log("Livre ajouté", res);
         alert("Livre ajouté avec succès !");
+       this.selectedFile = null;
         this.bookForm.reset();
         this.getAllBooks();
+      
       },
       error: err => {
         console.error("Erreur", err);
@@ -282,6 +312,10 @@ export class ProductsComponent implements OnInit {
       next: data => {
         if (data && data.books) {
           this.books = data.books;
+          this.pages =Math.floor(this.books.length / this.booksPerPage)+1;
+          this.pagesAmount = Array.from({length:this.pages},(_,i)=>i+1);
+          this.booksTablePage = this.books.slice(0,5);
+
           console.log("Livres récupérés :", this.books);
         } else {
           console.warn("Structure inattendue :", data);

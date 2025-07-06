@@ -38,9 +38,6 @@ export class CategoriesComponent implements OnInit {
       this.pages =Math.floor(this.categoriesArray.length / this.categoriesPerPage)+1;
       this.pagesAmount = Array.from({length:this.pages},(_,i)=>i+1);
       this.categoriesTablePage = this.categoriesArray.slice(0,5);
-      console.log(this.categoriesTablePage);
-      console.log(this.pagesAmount);
-      console.log(this.pages);
     })
   }
   deleteCategory(id: number) {
