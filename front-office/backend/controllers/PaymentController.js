@@ -24,7 +24,7 @@ const createPaymentIntent = async (req, res) => {
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: amount,
-      currency: 'eur',
+      currency: 'MAD',
       customer: customerId,
     });
 
