@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:dio/dio.dart' as dio;
 
 class OrderController extends GetxController {
-
   var orders = [].obs;
   var isLoading = false.obs;
 
@@ -39,10 +38,10 @@ class OrderController extends GetxController {
           'adress': adresse,
           'ville': ville,
           'total': total,
-          'products': products
+          'books': products
               .map((item) => {
-                    'id': item['id'],
-                    'quantite': item['cartItems']?['quantite'] ?? 1,
+                    'book_id': item['id'],
+                    'quantity': item['cartItems']?['quantite'] ?? 1,
                   })
               .toList(),
         }),
@@ -64,7 +63,6 @@ class OrderController extends GetxController {
       return false;
     }
   }
-
 
   Future<void> fetchOrders() async {
     try {

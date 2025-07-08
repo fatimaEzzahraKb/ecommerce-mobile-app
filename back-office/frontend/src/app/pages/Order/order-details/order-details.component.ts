@@ -1,44 +1,26 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from 'src/app/services/order.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-order-details',
-  templateUrl: './order-details.component.html',
-  styleUrls: ['./order-details.component.css']
+  templateUrl: './order-details.component.html'
 })
 export class OrderDetailsComponent implements OnInit {
+  orderId: number | null = null;
+  order: any = null;
 
-  order :any | null = null ;
-  notFound: boolean = false;
-
-  constructor(private http:HttpClient, private orderService: OrderService,
-    private route: ActivatedRoute
-  ) { }
-
-
-  getOrderDetails(id: number) {
-    this.orderService.showOrder(id).subscribe(
-      (res:any)=>{
-        if(res.status===404){
-          this.notFound = true;
-        }
-        else{
-         this.order = res.order;
-        }
-      },(err)=>{
-        console.log('There is an error  in the server',err)
-      }
-    )
-  }
-
+  constructor(private route: ActivatedRoute, private http: HttpClient) { }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.getOrderDetails(parseInt(id));
-  }
+    this.orderId = Number(this.route.snapshot.paramMap.get('id'));
 
+    this.http.get(`http://localhost:3000/orders/details/${this.orderId}`).subscribe({
+      next: (data: any) => {
+        this.order = data; // ✅ fixer ici
+        console.log('Commande récupérée :', this.order);
+      },
+      error: (err) => console.error(err)
+    });
+  }
 }

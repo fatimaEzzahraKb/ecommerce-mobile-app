@@ -2,7 +2,7 @@ const Book = require('../models/Books.model');
 const Category = require('../models/Category.model');
 
 async function addBook(req, res) {
-    const { titre, auteur, description, prix, categories } = req.body;
+    const { titre, auteur, description, prix, categories, quantite } = req.body;
     const image = req.file ? req.file.filename : null;
 
     if (!image) {
@@ -15,7 +15,8 @@ async function addBook(req, res) {
             auteur,
             description,
             prix,
-            image
+            image,
+            quantite
         });
 
         if (categories && categories.length > 0) {

@@ -1,26 +1,55 @@
-const { Order, User, Book } = require("../models/index.model");
+const { Order, User, Book, OrderItem } = require("../models/index.model");
 
 async function addOrder(req, res) {
   try {
     const user_id = req.user.id;
-    const data = { ...req.body, user_id }
-    const order = await Order.create(data);
+    const { tel, ville, status, books, adress } = req.body;
+    // books = [{ book_id: 1, quantity: 2 }, { book_id: 3, quantity: 1 }]
+
+    let totalCommande = 0;
+    const orderItemsData = [];
+
+    for (const item of books) {
+      const book = await Book.findByPk(item.book_id);
+      if (!book) continue; // ignorer si le livre n'existe pas
+
+      const itemTotal = item.quantity * book.prix;
+      totalCommande += itemTotal;
+
+      orderItemsData.push({
+        book_id: item.book_id,
+        quantity: item.quantity,
+        total: itemTotal
+      });
+    }
+
+    // Créer la commande avec le total calculé
+    const order = await Order.create({ user_id, tel, ville, adress, status, total: totalCommande });
+
+    // Ajouter commande_id aux orderItems
+    orderItemsData.forEach(item => item.order_id = order.id); // ✅ correspond à ton modèle
+
+    await OrderItem.bulkCreate(orderItemsData);
+
     const user = await User.findByPk(user_id);
+
     res.status(201).send({
-      message: "Votre commande a bien été envoyée", order,
+      message: "Votre commande a bien été envoyée",
+      order,
       user_name: user.nom,
       user_surname: user.prenom,
     });
-  }
-  catch (error) {
+
+  } catch (error) {
     if (error.name === 'SequelizeValidationError') {
       const errorMessages = error.errors.map(err => err.message);
       return res.status(400).send({ message: "Validation failed", errors: errorMessages });
     }
 
-    res.status(500).send({ message: "Error", error: error.message });
+    res.status(500).send({ message: "Erreur serveur", error: error.message });
   }
 }
+
 
 
 async function getOrders(req, res) {
