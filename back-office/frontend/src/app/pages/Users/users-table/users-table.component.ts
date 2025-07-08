@@ -10,11 +10,20 @@ import Swal from 'sweetalert2';
 export class UsersTableComponent implements OnInit {
 
   usersArray: any[] = [];
+  
+  usersTablePage: any[] = [];
+  pagesAmount:number[]=[];
+  pages:number = 0;
+  usersPerPage:number =5;
+  currentPage:number = 1;
   constructor(private userSrv: UserService) {
   }
   getUsers() {
     this.userSrv.loadUsers().subscribe((res: any) => {
       this.usersArray = res.users;
+      this.pages =Math.floor(this.usersArray.length / this.usersPerPage)+1;
+      this.pagesAmount = Array.from({length:this.pages},(_,i)=>i+1);
+      this.usersTablePage = this.usersArray.slice(0,5);
       console.log(this.usersArray);
     })
   }
@@ -42,7 +51,16 @@ export class UsersTableComponent implements OnInit {
   ngOnInit(): void {
     this.getUsers();
   }
-  paginate(){
-
+  paginate(page:number){
+    const start = (page-1)*this.usersPerPage;
+    const end =page * this.usersPerPage;
+    this.usersTablePage = this.usersArray.slice(start,end);
+    this.currentPage = page;
+  }
+  PrevNext(path:string){
+    this.currentPage= path==="prev" ? this.currentPage-1 : this.currentPage+1;
+    const start = (this.currentPage-1)*this.usersPerPage;
+    const end =this.currentPage * this.usersPerPage;
+    this.usersTablePage = this.usersArray.slice(start,end);
   }
 }
