@@ -9,6 +9,8 @@ const Book_Copy = require('./book_copy');
 User.hasMany(Order, { foreignKey: "user_id" });
 Order.belongsTo(User, { foreignKey: "user_id" });
 
+OrderItem.belongsTo(Book, { foreignKey: 'book_id' });
+OrderItem.belongsTo(Order, { foreignKey: 'order_id' });
 
 Order.belongsToMany(Book,{through:OrderItem,foreignKey:"order_id",otherKey:"book_id"});
 Book.belongsToMany(Order,{through:OrderItem,foreignKey:"book_id",otherKey:"order_id"});

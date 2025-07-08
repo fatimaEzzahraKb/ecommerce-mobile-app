@@ -3,12 +3,14 @@ const Book = require("../models/Books.model");
 const { Sequelize } = require("sequelize");
 const Order = require("../models/Order.model");
 const User = require("../models/Users.model");
+const OrderItem = require("../models/OrderItem.model");
 
 async function getData(req, res) {
   try {
     const customersTotal = await User.count({ where: { isAdmin: false } });
     const salesTotal = await Order.sum("total", { where: { status: 'términé' } }) | 0;
     const booksTotal = await Book.count();
+    const ordersTotal = await Order.count();
     const salesChartData = await Order.findAll({
       attributes: [
         [Sequelize.fn('DATE_FORMAT', Sequelize.col('createdAt'), '%Y-%m'), 'month'],
@@ -18,7 +20,24 @@ async function getData(req, res) {
       group: [Sequelize.fn('DATE_FORMAT', Sequelize.col('createdAt'), '%Y-%m')],
       order: [[Sequelize.fn('DATE_FORMAT', Sequelize.col('createdAt'), '%Y-%m'), 'ASC']]
     });
-    return res.status(200).send({ customersTotal, salesTotal, salesChartData, booksTotal });
+    const topBooksRaw = await OrderItem.findAll({
+      attributes: [
+        'book_id',
+        [Sequelize.fn('SUM', Sequelize.col("quantite")), "totalSold"]
+      ],
+      include: [{
+        model: Book,
+        attributes: ["titre"]
+      }],
+      group: ["book_id", "Book.id", "Book.titre"],
+      order: [[Sequelize.literal('totalSold'), 'DESC']],
+      limit: 5
+    })
+    const topBooks = topBooksRaw.map(item => ({
+      title: item.Book.titre,
+      quantity: parseInt(item.get('totalSold'))
+    }));
+    return res.status(200).send({ customersTotal, salesTotal, salesChartData, booksTotal, ordersTotal, topBooksLabels: topBooks.map(b => b.title), topBooksData: topBooks.map(b => b.quantity) });
   }
   catch (err) {
     console.log("Dashboard Data Error", err);
