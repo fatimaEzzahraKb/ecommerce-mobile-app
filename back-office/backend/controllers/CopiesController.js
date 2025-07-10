@@ -42,8 +42,8 @@ async function storeCopy(req,res) {
   }
 
   const copy =  await Book_Copy.create({uid:uid,book_id:book_id});
-  const book = await Book.findOne({id:book_id});
-  book.quantite = book.quantite +1;
+  const book = await Book.findOne({where:{id:book_id}});
+  book.quantite += 1;
   await book.save();
   res.status(201).json({message:"Exemplaire stocké avec succès",copy})
  }
