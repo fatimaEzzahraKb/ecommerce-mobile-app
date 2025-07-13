@@ -1,5 +1,6 @@
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:frontend_mobile/controllers/cartItems_controller.dart';
+import 'package:frontend_mobile/controllers/orders_controller.dart';
 import 'package:get/get.dart';
 import 'package:frontend_mobile/utils/api_endpoints.dart';
 import 'package:dio/dio.dart' as dio;
@@ -8,13 +9,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PaymentController extends GetxController {
   Map<String, dynamic>? paymentIntent;
   final CartController cartController = Get.put(CartController());
-
+  final OrderController orderController = Get.put(OrderController());
 
   Future<void> makePayment({required Function onPaymentSuccess}) async {
     try {
-      final totalAmount = (cartController.getTotal() * 100)
-          .toInt()
-          .toString(); // Convertir en centimes
+      final totalAmount = (cartController.getTotal() * 100).toInt().toString();
 
       paymentIntent = await createPaymentIntent(totalAmount);
 
@@ -47,18 +46,19 @@ class PaymentController extends GetxController {
         '${ApiEndpoints.baseUrl}payments/create-payment-intent',
         options: dio.Options(
           headers: {
-            'Authorization': 'Bearer $token', // ✅ Token utilisateur
+            'Authorization': 'Bearer $token',
             'Content-Type': 'application/x-www-form-urlencoded',
           },
         ),
         data: {
-          'amount': amount, // ⚠️ doit être en centimes !
+          'amount': amount,
         },
       );
 
       if (response.statusCode == 200 && response.data['clientSecret'] != null) {
+        orderController.fetchOrders();
         return {
-          'client_secret': response.data['clientSecret'], // ✅ ici
+          'client_secret': response.data['clientSecret'],
         };
       } else {
         print('Erreur Stripe: ${response.data}');

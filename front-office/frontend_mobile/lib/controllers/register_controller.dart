@@ -37,12 +37,11 @@ class RegisterController extends GetxController {
       if (response.statusCode == 201) {
         final json = jsonDecode(response.body);
         var token = json['data']['Token'];
-        var userId =
-            json['data']['user']['id']; // ✅ récupère l'ID de l'utilisateur
+        var userId = json['data']['user']['id'];
 
         final SharedPreferences? prefs = await _prefs;
         await prefs?.setString('token', token);
-        await prefs?.setInt('user_id', userId); // ✅ enregistre user_id
+        await prefs?.setInt('user_id', userId);
 
         // Nettoyage
         nomController.clear();

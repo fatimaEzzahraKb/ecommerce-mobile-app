@@ -265,6 +265,18 @@
                           </div>
                         </div>
                         <div class="form-group">
+                          <label class="form-control-label" for="quantite">Quantité</label>
+                          <input type="number" formControlName="quantite" class="form-control" required
+                            placeholder="quantite">
+                          <div
+                            *ngIf="editForm.get('quantite')?.invalid && (editForm.get('quantite')?.touched || editForm.get('quantite')?.dirty)"
+                            class="text-danger small">
+                            <div *ngIf="editForm.get('quantite')?.errors?.['required']">
+                              La quantité est obligatoire.
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
                           <label class="form-control-label" for="auteur">Auteur du livre</label>
                           <input type="text" formControlName="auteur" class="form-control" required
                             placeholder="auteur">
@@ -377,7 +389,7 @@
                       </div>
                       <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" (click)="close()">Fermer</button>
-                        <button type="submit" (click)="scanBook()" class="btn btn-primary">Connecter</button>
+                        <button type="submit" (click)="scanBook()" class="btn btn-primary">Lancer</button>
                       </div>
                     </div>
                     <ng-template #connectedBlock>

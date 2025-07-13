@@ -33,32 +33,7 @@ export class DashboardComponent implements OnInit {
   constructor(private dashboardSrv: DashboardService) { }
   ngOnInit() {
     this.getData();
-    this.datasets = [
-      [0, 20, 10, 30, 15, 40, 20, 60, 60],
-      [0, 20, 5, 25, 10, 30, 15, 40, 40]
-    ];
-    this.data = this.datasets[0];
-
-
-    ;
-     var chartOrders = document.getElementById('chart-orders');
-
     parseOptions(Chart, chartOptions());
-
-
-    // var ordersChart = new Chart(chartOrders, {
-    //   type: 'bar',
-    //    options: this.topBooksChartLabels,
-    //    data: this.topBooksChartData
-    //  });
-
-    var chartSales = document.getElementById('chart-sales');
-
-    this.salesChart = new Chart(chartSales, {
-      type: 'line',
-      options: chartExample1.options,
-      data: chartExample1.data
-    });
   }
 
   renderTopBooksChart() {
@@ -90,6 +65,35 @@ export class DashboardComponent implements OnInit {
     }
   });
 }
+renderSalesChart() {
+  const chartSales = document.getElementById('chart-sales') as HTMLCanvasElement;
+
+  this.salesChart = new Chart(chartSales, {
+    type: 'line',
+    data: {
+      labels: this.salesChartLabels,
+      datasets: [{
+        label: 'Ventes mensuelles',
+        data: this.salesChartData,
+        borderColor: '#5e72e4',
+        backgroundColor: 'rgba(94, 114, 228, 0.2)',
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true,
+          ticks: {
+            precision: 0
+          }
+        }
+      }
+    }
+  });
+}
 
 
   public updateOptions() {
@@ -104,10 +108,13 @@ export class DashboardComponent implements OnInit {
       this.totalOrders = res.ordersTotal;
       this.topBooksChartLabels = res.topBooksLabels;
       this.topBooksChartData = res.topBooksData;
-      console.log('Labels:', this.topBooksChartLabels);
-      console.log('Data:', this.topBooksChartData);
+      this.salesChartData = res.salesChartData;
+      this.salesChartLabels = res.salesChartLabels
+      console.log('Labels:', this.salesChartData);
+      console.log('Data:', this.salesChartLabels);
       setTimeout(() => {
       this.renderTopBooksChart();
+      this.renderSalesChart();
     }, 100);
     }, (error) => {
       console.log("Error while getting Data", error)

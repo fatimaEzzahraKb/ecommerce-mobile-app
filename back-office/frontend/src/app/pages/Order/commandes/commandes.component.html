@@ -26,7 +26,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let order of ordersArray; let i = index">
+                  <tr *ngFor="let order of ordersTablePage; let i = index">
                     <th scope="row">
                       <div class="media align-items-center">
                         <div class="media-body">
@@ -35,7 +35,16 @@
                       </div>
                     </th>
                     <td>
-                      {{order.status}}
+                      <div class="text-center px-3 py-1 fw-bold  rounded-pill d-inline-block shadow-sm"
+                         style="font-size: small;"
+                        [ngClass]="{
+     'bg-success text-white': order.status === 'términé',
+     'bg-warning text-white': order.status === 'en cours',
+     'bg-danger text-white': order.status === 'annulé'
+   }">
+                        {{ order.status }}
+                      </div>
+
                     </td>
                     <td>
                       {{order.tel}}
@@ -186,22 +195,18 @@
             </div>
             <div class="card-footer py-4">
               <nav aria-label="...">
-                <ul class="pagination justify-content-end mb-0">
-                  <li class="page-item disabled">
-                    <a class="page-link" href="javascript:void(0)" tabindex="-1">
+                <ul class="pagination  justify-content-end mb-0">
+                  <li class="page-item " [class.disabled]="currentPage===1">
+                    <a class="page-link" href="javascript:void(0)" (click)="PrevNext('prev')">
                       <i class="fas fa-angle-left"></i>
                       <span class="sr-only">Previous</span>
                     </a>
                   </li>
-                  <li class="page-item active">
-                    <a class="page-link" href="javascript:void(0)">1</a>
+                  <li class="page-item " *ngFor="let p of pagesAmount " [class.active]="p===currentPage">
+                    <a class="page-link" href="javascript:void(0)" (click)="paginate(p)">{{p}}</a>
                   </li>
-                  <li class="page-item">
-                    <a class="page-link" href="javascript:void(0)">2 <span class="sr-only">(current)</span></a>
-                  </li>
-                  <li class="page-item"><a class="page-link" href="javascript:void(0)">3</a></li>
-                  <li class="page-item">
-                    <a class="page-link" href="javascript:void(0)">
+                  <li class="page-item" [class.disabled]="currentPage===pages">
+                    <a class="page-link" href="javascript:void(0)" (click)="PrevNext('next')">
                       <i class="fas fa-angle-right"></i>
                       <span class="sr-only">Next</span>
                     </a>

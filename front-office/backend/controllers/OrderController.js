@@ -23,11 +23,9 @@ async function addOrder(req, res) {
       });
     }
 
-    // Créer la commande avec le total calculé
     const order = await Order.create({ user_id, tel, ville, adress, status, total: totalCommande });
 
-    // Ajouter commande_id aux orderItems
-    orderItemsData.forEach(item => item.order_id = order.id); // ✅ correspond à ton modèle
+    orderItemsData.forEach(item => item.order_id = order.id); 
 
     await OrderItem.bulkCreate(orderItemsData);
 
@@ -54,9 +52,9 @@ async function addOrder(req, res) {
 
 async function getOrders(req, res) {
   try {
-    const userId = req.user.id; // ← Récupéré grâce au middleware d'authentification
+    const userId = req.user.id;
     const orders = await Order.findAll({
-      where: { user_id: userId }, // 👈 Ne renvoie que les commandes de l'utilisateur connecté
+      where: { user_id: userId }, 
       include: {
         model: User,
         attributes: ['id', 'nom', 'email', 'prenom', 'ville', 'pays']

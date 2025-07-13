@@ -3,7 +3,7 @@ const { User } = require('../models/index.model');
 
 const createPaymentIntent = async (req, res) => {
   const { amount } = req.body;
-  const user_id = req.user.id; // ✅ Récupéré automatiquement via le middleware d'auth
+  const user_id = req.user.id; 
 
   try {
     const user = await User.findByPk(user_id);
