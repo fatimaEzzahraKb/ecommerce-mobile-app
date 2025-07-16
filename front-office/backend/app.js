@@ -13,9 +13,8 @@ var categoriesRouter = require("./routes/categories");
 var cartRouter = require("./routes/cartItems");
 var ordersRouter = require("./routes/orders");
 var paymentRouter = require("./routes/payment");
-
+var chatbotRouter = require("./routes/chatbot");
 var app = express();
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -30,6 +29,7 @@ app.use('/categories',categoriesRouter);
 app.use('/cart',cartRouter);
 app.use('/orders',ordersRouter);
 app.use('/payments',paymentRouter);
+app.use('/chatbot',chatbotRouter);
 
 app.listen(5000, '0.0.0.0', () => {
   console.log("Server running on http://0.0.0.0:5000");

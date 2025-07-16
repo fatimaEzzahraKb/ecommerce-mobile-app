@@ -74,7 +74,7 @@ async function deleteBook(req, res) {
 
 async function updateBook(req, res) {
     const { id } = req.params;
-    const { titre, auteur, description, prix, categories } = req.body;
+    const { titre,quantite, auteur, description, prix, categories } = req.body;
     const image = req.file ? req.file.filename : null;
 
     try {
@@ -85,6 +85,7 @@ async function updateBook(req, res) {
         }
 
         book.titre = titre || book.titre;
+        book.quantite = quantite || book.quantite;
         book.auteur = auteur || book.auteur;
         book.description = description || book.description;
         book.prix = prix || book.prix;

@@ -69,6 +69,7 @@ export class ProductsComponent implements OnInit {
 
   editForm = new FormGroup({
     titre: new FormControl("", [Validators.required]),
+    quantite: new FormControl("", [Validators.required]),
     auteur: new FormControl("", [Validators.required]),
     description: new FormControl("", [Validators.required]),
     prix: new FormControl("", [Validators.required]),
@@ -161,6 +162,7 @@ export class ProductsComponent implements OnInit {
     this.selectedBook = book,
       this.editForm.patchValue({
         titre: book.titre,
+        quantite:book.quantite,
         auteur: book.auteur,
         description: book.description,
         prix: book.prix,
@@ -206,7 +208,8 @@ export class ProductsComponent implements OnInit {
     console.log(id);
     const formData = new FormData();
     formData.append("titre", this.editForm.value.titre);
-    formData.append("auteur", this.editForm.value.auteur);
+    formData.append("quantite", this.editForm.value.quantite);  
+    formData.append("auteur", this.editForm.value.auteur);  
     formData.append("description", this.editForm.value.description);
     formData.append("prix", this.editForm.value.prix);
 

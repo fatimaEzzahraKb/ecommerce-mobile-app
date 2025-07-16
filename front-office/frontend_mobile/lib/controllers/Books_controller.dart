@@ -62,4 +62,15 @@ class BooksController extends GetxController {
           });
     }
   }
+
+  List<dynamic> filterBooks(String query) {
+    // ignore: invalid_use_of_protected_member
+    if (query.isEmpty) return books.value.take(5).toList();
+    return books
+        .where((book) => book['titre']
+            .toString()
+            .toLowerCase()
+            .contains(query.toLowerCase()))
+        .toList();
+  }
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend_mobile/controllers/Books_controller.dart';
 import 'package:frontend_mobile/screens/client/pages/book_details.dart';
+import 'package:frontend_mobile/screens/client/widgets/search_bar.dart';
 import 'package:frontend_mobile/screens/client/widgets/bookItem.dart';
 import 'package:frontend_mobile/screens/client/widgets/categoryList.dart';
 import 'package:frontend_mobile/screens/client/widgets/heroBanner.dart';
@@ -31,6 +32,8 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const HeroBanner(),
+          const SizedBox(height: 18),
+          SearchBarWidget(),
           const SizedBox(height: 18),
           const Categorylist(
             horizontal_direction: false,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:frontend_mobile/controllers/orders_controller.dart';
+import 'package:frontend_mobile/screens/client/pages/cartItems.dart';
 import 'package:frontend_mobile/utils/api_endpoints.dart';
 import 'package:get/get.dart';
 import 'package:frontend_mobile/controllers/cartItems_controller.dart'; // 🔸 Ajout important
@@ -12,12 +14,35 @@ class BookDetails extends StatefulWidget {
 }
 
 class _BookDetailsState extends State<BookDetails> {
-  final CartController cartController = Get.put(CartController()); // 🔸 Instanciation du controller
+  final CartController cartController = Get.put(CartController());
+
+  int addAvailability = 0;
+  // si c pas en panier 0 , si c en panier 1, si c épuisé -2, si il y a moins de 5 en qt c -1
+
+  @override
+  void initState() {
+    super.initState();
+    determineAvailability();
+  }
+
+  void determineAvailability() {
+    final book = widget.book;
+    final cart = cartController.cartItems;
+    bool existInChart = cart.any((b) => b["id"] == book["id"]);
+    if (book["quantite"] == 0) {
+      addAvailability = -2;
+    } else if (book["quantite"] < 5 && !existInChart) {
+      addAvailability = -1;
+    } else if (existInChart) {
+      addAvailability = 1;
+    } else if (!existInChart) {
+      addAvailability = 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final Map book = widget.book;
-
     return Scaffold(
       appBar: AppBar(
         title: Text(book['titre'] ?? "Détails"),
@@ -81,13 +106,45 @@ class _BookDetailsState extends State<BookDetails> {
             const SizedBox(height: 20),
             Center(
               child: ElevatedButton.icon(
-                onPressed: () {
-                  cartController.addToCart(bookId: book['id']); // ✅ Appel de la méthode
-                },
-                icon: Icon(Icons.add_shopping_cart_rounded, color: Colors.white),
-                label: Text("Ajouter au panier"),
+                onPressed: addAvailability == -2
+                    ? null
+                    : () {
+                        if (addAvailability == 0 || addAvailability == -1) {
+                          cartController.addToCart(bookId: book['id']);
+                          setState(() => determineAvailability());
+                        } else if (addAvailability == 1) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => CartPage()),
+                          );
+                        }
+                      },
+                icon: addAvailability == 0
+                    ? Icon(Icons.add_shopping_cart_rounded, color: Colors.white)
+                    : addAvailability == 1
+                        ? Icon(Icons.shopping_bag_rounded, color: Colors.white)
+                        : addAvailability == -2
+                            ? Icon(Icons.block, color: Colors.white)
+                            : addAvailability == -1
+                                ? Icon(Icons.add_shopping_cart_rounded,
+                                    color: Colors.white)
+                                : Icon(Icons.add_shopping_cart_rounded,
+                                    color: Colors.white),
+                label: addAvailability == 0
+                    ? Text("Ajouter au panier")
+                    : addAvailability == 1
+                        ? Text("Accèder au panier")
+                        : addAvailability == -2
+                            ? Text("Epuisé")
+                            : Text("Il reste moins de 5 exemplaire "),
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: addAvailability == 0
+                      ? Colors.blueAccent
+                      : addAvailability == -1
+                          ? Colors.amberAccent
+                          : addAvailability == -2
+                              ? Colors.grey
+                              : Colors.greenAccent,
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                   shape: RoundedRectangleBorder(

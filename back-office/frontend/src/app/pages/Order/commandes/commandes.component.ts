@@ -13,6 +13,11 @@ export class CommandesComponent implements OnInit {
 
   ordersArray: any[] = [];
 
+  ordersTablePage: any[] = [];
+  pagesAmount:number[]=[];
+  pages:number = 0;
+  ordersPerPage:number =5;
+  currentPage:number = 1;
   modalRef: any;
 
   editForm = new FormGroup({
@@ -31,6 +36,9 @@ export class CommandesComponent implements OnInit {
   getOrders() {
     this.orderService.getOrders().subscribe((res: any) => {
       this.ordersArray = res.orders;
+      this.pages =Math.floor(this.ordersArray.length / this.ordersPerPage)+1;
+      this.pagesAmount = Array.from({length:this.pages},(_,i)=>i+1);
+      this.ordersTablePage = this.ordersArray.slice(0,5);
       console.log(this.getOrders);
     })
   }
@@ -118,5 +126,18 @@ export class CommandesComponent implements OnInit {
   ngOnInit(): void {
     this.getOrders();
   }
+// Pagination
 
+  paginate(page:number){
+    const start = (page-1)*this.ordersPerPage;
+    const end =page * this.ordersPerPage;
+    this.ordersTablePage = this.ordersArray.slice(start,end);
+    this.currentPage = page;
+  }
+  PrevNext(path:string){
+    this.currentPage= path==="prev" ? this.currentPage-1 : this.currentPage+1;
+    const start = (this.currentPage-1)*this.ordersPerPage;
+    const end =this.currentPage * this.ordersPerPage;
+    this.ordersTablePage = this.ordersArray.slice(start,end);
+  }
 }

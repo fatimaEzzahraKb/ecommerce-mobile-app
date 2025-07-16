@@ -6,6 +6,7 @@ import 'package:frontend_mobile/screens/client/pages/categories.dart';
 import 'package:frontend_mobile/screens/client/pages/category_books.dart';
 import 'package:frontend_mobile/screens/client/pages/homePage.dart';
 import 'package:frontend_mobile/screens/client/pages/orders.dart';
+import 'package:frontend_mobile/screens/client/widgets/search_bar.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,7 +21,12 @@ class _MainClientState extends State<MainClient> {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   int _selectedIndex = 0;
 
-  final List<Widget> _pages = [HomePage(), Categories(), CartPage(), OrdersPage()];
+  final List<Widget> _pages = [
+    HomePage(),
+    Categories(),
+    CartPage(),
+    OrdersPage()
+  ];
 
   void _onItemTapped(int index) {
     setState(() {
@@ -72,7 +78,7 @@ class _MainClientState extends State<MainClient> {
               ListTile(
                 leading: Icon(Icons.inventory_2),
                 title: Text('Orders'),
-                 onTap: () {
+                onTap: () {
                   _onItemTapped(3);
                 },
               ),

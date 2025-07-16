@@ -15,6 +15,7 @@ async function startScan(req, res) {
     console.log(error);
     res.status(500).json({ message: "Server error", error: error });
   }
+
 }
 
 async function endScan(req, res) {
