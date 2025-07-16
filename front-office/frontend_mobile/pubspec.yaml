@@ -38,7 +38,7 @@ dependencies:
   http: ^1.4.0
   flutter_stripe : ^10.1.1 
   shared_preferences: ^2.5.3
-  
+  chat_bubbles: ^1.7.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

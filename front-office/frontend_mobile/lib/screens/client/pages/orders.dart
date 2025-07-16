@@ -18,6 +18,25 @@ class _OrdersPageState extends State<OrdersPage> {
     orderController.fetchOrders();
   }
 
+  String formatDate(String? rawDate) {
+    if (rawDate == null) return 'N/A';
+    try {
+      final date = DateTime.parse(rawDate);
+      String twoDigits(int n) => n.toString().padLeft(2, '0');
+
+      final day = twoDigits(date.day);
+      final month = twoDigits(date.month);
+      final year = date.year;
+
+      final hour = twoDigits(date.hour);
+      final minute = twoDigits(date.minute);
+
+      return '$day/$month/$year $hour:$minute';
+    } catch (_) {
+      return 'N/A';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +61,7 @@ class _OrdersPageState extends State<OrdersPage> {
                     children: [
                       Text('Montant total: ${order['total']} DH'),
                       Text('Status: ${order['status']}'),
-                      Text('Date: ${order['createdAt'] ?? 'N/A'}'),
+                      Text('Date: ${formatDate(order['createdAt'])}'),
                     ],
                   ),
                 ),

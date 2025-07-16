@@ -5,6 +5,7 @@ class ApiEndpoints {
   static _AuthEndPoints authEndPoints = _AuthEndPoints();
   static _BooksEndPoints booksEndPoints = _BooksEndPoints();
   static _CategoriesEndPoints categoriesEndPoints = _CategoriesEndPoints();
+  static _ChatBotEndPoints chatBotEndPoints = _ChatBotEndPoints();
 }
 
 class _AuthEndPoints {
@@ -20,4 +21,9 @@ class _BooksEndPoints {
 class _CategoriesEndPoints {
   final String getAllCategories = "categories";
   String getOneCategoryBooks(int id) => "categories/$id";
+}
+
+class _ChatBotEndPoints {
+  String getConversation(int? id) => "chatbot-conv/$id";
+  String sendMessage(int? id) => "send-to-chat/$id";
 }

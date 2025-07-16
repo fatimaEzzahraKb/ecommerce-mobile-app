@@ -4,7 +4,7 @@ const {DataTypes} = require("sequelize");
 const User = require("./Users.model.js")
 const Book = require("./Books.model.js")
 
-const cartItems = sequelize.define("cartItems",{
+const CartItem = sequelize.define("cartItems",{
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -19,7 +19,7 @@ const cartItems = sequelize.define("cartItems",{
         type: DataTypes.INTEGER,
         allowNull: false, 
         references: {
-            model: 'users',
+            model: User,
             key: 'id'
         },
         onDelete: 'CASCADE',
@@ -29,7 +29,7 @@ const cartItems = sequelize.define("cartItems",{
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'books',
+            model: Book,
             key: 'id'
         },
         onDelete: 'CASCADE',
@@ -37,16 +37,16 @@ const cartItems = sequelize.define("cartItems",{
     }
 })
 
-User.belongsToMany(Book, {through: cartItems, foreignKey: 'user_id', otherKey: 'book_id', as: 'books'});
-Book.belongsToMany(User, {through: cartItems, foreignKey: 'book_id', otherKey: 'user_id', as: 'users'});
+User.belongsToMany(Book, {through: CartItem, foreignKey: 'user_id', otherKey: 'book_id', as: 'books'});
+Book.belongsToMany(User, {through: CartItem, foreignKey: 'book_id', otherKey: 'user_id', as: 'users'});
 
-cartItems.belongsTo(User, {foreignKey: 'user_id'});
-cartItems.belongsTo(Book, {foreignKey: 'book_id'});
+CartItem.belongsTo(User, {foreignKey: 'user_id'});
+CartItem.belongsTo(Book, {foreignKey: 'book_id'});
 
 
-sequelize.sync().then(()=> console.log("cartItems table created successfully"))
+sequelize.sync().then(()=> console.log("CartItem table created successfully"))
                 .catch(()=>console.log("Unable to create table", error));
 
-module.exports = cartItems;
+module.exports = CartItem;
 
 
