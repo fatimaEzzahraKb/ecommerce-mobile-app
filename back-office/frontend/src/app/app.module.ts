@@ -27,6 +27,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { CommandesComponent } from './pages/Order/commandes/commandes.component';
 import { CartItemsComponent } from './pages/cart-items/cart-items.component';
 import { OrderDetailsComponent } from './pages/Order/order-details/order-details.component';
+import { SalesHistoryComponent } from './pages/sales-history/sales-history.component';
 
 @NgModule({
   imports: [
@@ -56,6 +57,7 @@ import { OrderDetailsComponent } from './pages/Order/order-details/order-details
     CommandesComponent,
   OrderDetailsComponent,
     CartItemsComponent,
+    SalesHistoryComponent,
   ],
   providers: [
     DatePipe                 // Ici dans providers, si tu en as besoin en TS
