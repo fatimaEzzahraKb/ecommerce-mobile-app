@@ -175,4 +175,40 @@ class CartController extends GetxController {
     }
     return total;
   }
+
+ Future<void> clearCartServer() async {
+  final prefs = await SharedPreferences.getInstance();
+  final userId = prefs.getInt('user_id');
+  final token = prefs.getString('token');
+
+  if (userId == null) {
+    Get.snackbar('Erreur', 'Utilisateur non connecté');
+    return;
+  }
+
+  final url = Uri.parse('${ApiEndpoints.baseUrl}cart/clear/$userId');
+
+  try {
+    final response = await http.delete(
+      url,
+      headers: {
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      Get.snackbar('Succès', data['message']);
+      cartItems.clear();
+      prefs.remove('cartItems');
+    } else {
+      final msg = jsonDecode(response.body)['message'] ?? 'Erreur inconnue';
+      Get.snackbar('Erreur', msg);
+    }
+  } catch (e) {
+    Get.snackbar('Erreur', 'Erreur serveur : $e');
+  }
+}
+
+  
 }

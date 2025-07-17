@@ -62,9 +62,9 @@ async function showUser(req, res) {
     const id = req.params.id;
     const user =await User.findOne({ where: { id } ,include:Order});
     if (!user) {
-      res.status(404).send({ message: "user not found" });
+       return res.status(404).send({ message: "user not found" });
     }
-    res.status(200).send({user:user });
+    return res.status(200).send({user:user });
 
   }
   catch (error) {

@@ -6,6 +6,7 @@ const OrderItem = require("./OrderItem.model");
 const Book = require("./Books.model");
 const Book_Category = require('./book_category.model');
 const Book_Copy = require('./book_copy');
+const Historique_Ventes = require('./historique_ventes.model');
 User.hasMany(Order, { foreignKey: "user_id" });
 Order.belongsTo(User, { foreignKey: "user_id" });
 
@@ -21,6 +22,9 @@ Book.belongsToMany(Category,{through:Book_Category,foreignKey:"book_id",otherKey
 Book.hasMany(Book_Copy,{foreignKey:"book_id"});
 Book_Copy.belongsTo(Book,{foreignKey:"book_id"});
 
+Book.hasMany(Historique_Ventes,{foreignKey:"book_id", as:"book"});
+Historique_Ventes.belongsTo(Book,{foreignKey:"book_id", as:"book"});
+
 module.exports = {
   sequelize,
   User,
@@ -28,5 +32,6 @@ module.exports = {
   Order,
   Book,
   OrderItem,
-  Book_Copy
+  Book_Copy,
+  Historique_Ventes
 };

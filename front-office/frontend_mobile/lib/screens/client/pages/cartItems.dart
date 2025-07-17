@@ -19,7 +19,6 @@ class _CartPageState extends State<CartPage> {
   final OrderController orderController = Get.put(OrderController());
   final PaymentController paymentController = Get.put(PaymentController());
 
-
   bool _userConnected = true;
 
   @override
@@ -192,9 +191,13 @@ class _CartPageState extends State<CartPage> {
                     );
 
                     if (successOrder) {
-                      // Get.back();
-                      Get.snackbar('Succès', 'Commande passée avec succès');
-                      cartController.cartItems.clear();
+                      if (successOrder) {
+                        await cartController.clearCartServer();
+                        await cartController.fetchCartItems();
+                        await orderController.fetchOrders();
+
+                        Get.snackbar('Succès', 'Commande passée avec succès');
+                      }
                     } else {
                       Get.snackbar('Erreur', 'Erreur lors de la commande');
                     }

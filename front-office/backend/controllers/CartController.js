@@ -77,4 +77,30 @@ async function removeBookFromCart(req, res) {
     }
 }
 
-module.exports = {addToCart, getUserCart, removeBookFromCart};
+
+const clearCart = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const deleted = await cartItems.destroy({
+      where: { user_id: userId }
+    });
+
+    // Pas d'erreur si rien à supprimer
+    res.status(200).json({ 
+      message: `${deleted} article(s) supprimé(s) du panier` 
+    });
+  } catch (error) {
+    console.error('Erreur lors du vidage du panier :', error);
+    res.status(500).json({
+      message: 'Erreur serveur',
+      error: error.message,
+    });
+  }
+};
+
+
+
+
+
+module.exports = {addToCart, getUserCart, removeBookFromCart, clearCart};

@@ -138,7 +138,7 @@
                   <th scope="col">Image</th>
                   <th scope="col">Titre</th>
                   <th scope="col">Auteur</th>
-                  <!-- <th scope="col">Déscription</th> -->
+
                   <th scope="col">Prix</th>
                   <th scope="col">Catégorie(s)</th>
                   <th scope="col">Quantité</th>
@@ -191,9 +191,13 @@
                         <a class="dropdown-item text-primary" href="javascript:void(0)"
                           (click)="openEditModal(editModal,book)">
                           <i class="fas fa-pencil-alt" style="font-size: 13px;"></i>Editer</a>
-                        <a class="dropdown-item text-primary" href="javascript:void(0)"
-                          (click)="openScanModal(scanModal,book.id)">
-                          <i class="bi bi-journal-bookmark" style="font-size: 13px;"></i>Scanner</a>
+                        <!-- Ajouter un exemplaire : en vert -->
+                        <a class="dropdown-item text-indigo" href="javascript:void(0)"
+                          (click)="openScanModal(scanModal, book.id)">
+                          <i class="bi bi-journal-bookmark" style="font-size: 13px;"></i> Ajouter un exemplaire
+                        </a>
+
+                       
                         <a class="dropdown-item delete text-danger" href="javascript:void(0)"
                           (click)="onDeleteBook(book.id)">
                           <i class="fas fa-trash fa-sm " style="font-size: 13px;"></i> Supprimer</a>
