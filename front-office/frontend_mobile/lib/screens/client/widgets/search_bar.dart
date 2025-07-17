@@ -32,7 +32,7 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
                 controller.openView();
               },
               onChanged: (_) {
-                controller.openView();
+                // controller.openView();
               },
               leading: const Icon(Icons.search),
             );

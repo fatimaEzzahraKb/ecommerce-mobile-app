@@ -22,12 +22,12 @@ async function sendMessage(req, res) {
   const user_id = req.params.id;
   const content = req.body.content
   console.log("Sending prompt:", content);
-  // const message = await Message.create({user_id:user_id,type:"message",content:content});
+  const message = await Message.create({user_id:user_id,type:"message",content:content});
 
   // Calling local API to communicate with the AI modal (llama3/ tinyLama) 
   const response = await axios.post(`http://localhost:8000/generate?prompt=${content}`);
   console.log(response);
-  // const answer = await Message.create({user_id:user_id,type:"answer",content:response.data.response});
+  const answer = await Message.create({user_id:user_id,type:"answer",content:response.data.response});
   // return res.status(200).json({answer : answer, message:message});
  /*  const response = await fetch('http://localhost:8000/generate', {
    method: 'POST',

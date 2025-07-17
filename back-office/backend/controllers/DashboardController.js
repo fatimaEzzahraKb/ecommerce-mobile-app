@@ -11,6 +11,7 @@ async function getData(req, res) {
     const salesTotal = await Order.sum("total", { where: { status: 'términé' } }) | 0;
     const booksTotal = await Book.count();
     const ordersTotal = await Order.count();
+
     const salesRaw = await Order.findAll({
       attributes: [
         [Sequelize.fn('DATE_FORMAT', Sequelize.col('createdAt'), '%Y-%m'), 'month'],
@@ -20,6 +21,7 @@ async function getData(req, res) {
       group: [Sequelize.fn('DATE_FORMAT', Sequelize.col('createdAt'), '%Y-%m')],
       order: [[Sequelize.fn('DATE_FORMAT', Sequelize.col('createdAt'), '%Y-%m'), 'ASC']]
     });
+
     const topBooksRaw = await OrderItem.findAll({
       attributes: [
         'book_id',
@@ -37,12 +39,13 @@ async function getData(req, res) {
       title: item.Book.titre,
       quantity: parseInt(item.get('totalSold'))
     }));
-    
+
+
     const sales = salesRaw.map(item => ({
-    month: item.dataValues.month,
-    totalSales: parseFloat(item.dataValues.totalSales)
+      month: item.dataValues.month,
+      totalSales: parseFloat(item.dataValues.totalSales)
     }))
-    return res.status(200).send({ customersTotal, salesTotal, salesChartData:sales.map(t => t.totalSales), salesChartLabels: sales.map(t=> t.month), booksTotal, ordersTotal, topBooksLabels: topBooks.map(b => b.title), topBooksData: topBooks.map(b => b.quantity) });
+    return res.status(200).send({ customersTotal, salesTotal, salesChartData: sales.map(t => t.totalSales), salesChartLabels: sales.map(t => t.month), booksTotal, ordersTotal, topBooksLabels: topBooks.map(b => b.title), topBooksData: topBooks.map(b => b.quantity) });
   }
   catch (err) {
     console.log("Dashboard Data Error", err);

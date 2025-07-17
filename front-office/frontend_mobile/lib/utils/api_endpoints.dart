@@ -24,6 +24,6 @@ class _CategoriesEndPoints {
 }
 
 class _ChatBotEndPoints {
-  String getConversation(int? id) => "chatbot-conv/$id";
-  String sendMessage(int? id) => "send-to-chat/$id";
+  String getConversation(int? id) => "chatbot/chatbot-conv/$id";
+  String sendMessage(int? id) => "chatbot/send-to-chat/$id";
 }

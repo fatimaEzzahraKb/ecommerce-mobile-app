@@ -4,6 +4,7 @@ import 'package:frontend_mobile/screens/client/pages/book_details.dart';
 import 'package:frontend_mobile/screens/client/pages/cartItems.dart';
 import 'package:frontend_mobile/screens/client/pages/categories.dart';
 import 'package:frontend_mobile/screens/client/pages/category_books.dart';
+import 'package:frontend_mobile/screens/client/pages/chat_bot.dart';
 import 'package:frontend_mobile/screens/client/pages/homePage.dart';
 import 'package:frontend_mobile/screens/client/pages/orders.dart';
 import 'package:frontend_mobile/screens/client/widgets/search_bar.dart';
@@ -25,7 +26,8 @@ class _MainClientState extends State<MainClient> {
     HomePage(),
     Categories(),
     CartPage(),
-    OrdersPage()
+    OrdersPage(),
+    ChatBot()
   ];
 
   void _onItemTapped(int index) {
@@ -80,6 +82,13 @@ class _MainClientState extends State<MainClient> {
                 title: Text('Orders'),
                 onTap: () {
                   _onItemTapped(3);
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.smart_toy),
+                title: Text('Chat Bot Assistant'),
+                onTap: () {
+                  _onItemTapped(4);
                 },
               ),
               ListTile(

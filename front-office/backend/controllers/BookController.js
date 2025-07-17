@@ -1,4 +1,4 @@
-const {Book,Category} = require('../models/index.model');
+const {Book,Category, Book, Book} = require('../models/index.model');
 
 
 async function getAllBooks(req, res) {
@@ -46,6 +46,25 @@ if(!book){
  }
 }
 
+async function searchBookByTitle(req,res){
+  try{
+    const title = req.params.title;
+    const book  = await  Book.findOne({where:{titre:title},attributes:["quantite"]});
+    if (!book.quantite) {
+      return res.status(200).send(false);
+    }
+    if(book>0){
+      res.status(200).send(true);
+    }
+    else{
+      res.status(200).send(false);
+    }
+  }
+  catch(err){
+    console.error(err);
+    res.status(500).send(false);
+  }
+}
 
 
-module.exports = { getAllBooks ,showBook};
+module.exports = { getAllBooks ,showBook,searchBookByTitle};

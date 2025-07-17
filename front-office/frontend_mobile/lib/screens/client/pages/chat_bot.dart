@@ -16,7 +16,12 @@ class _ChatBotState extends State<ChatBot> {
   @override
   void initState() {
     super.initState();
-    chatBotController.getConversation();
+    _loadMessages();
+  }
+
+  void _loadMessages() async {
+    await chatBotController.getConversation();
+    print(chatBotController.messages);
   }
 
   @override
@@ -24,9 +29,6 @@ class _ChatBotState extends State<ChatBot> {
     return Obx(() {
       var messages = chatBotController.messages;
       var answers = chatBotController.answers;
-      if (messages.isEmpty) {
-        return Container(child: Text("No messages Yet"));
-      }
       List<ChatMessage> allMessages = [];
       for (int i = 0; i < messages.length; i++) {
         allMessages.add(ChatMessage(content: messages[i], isUser: true));
@@ -35,49 +37,42 @@ class _ChatBotState extends State<ChatBot> {
         }
       }
 
-      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Expanded(
-          child: ListView.separated(
-            padding: const EdgeInsets.all(16),
-            itemCount: allMessages.length,
-            separatorBuilder: (context, index) => const Divider(height: 24),
-            itemBuilder: (context, index) {
-              var message = allMessages[index];
-              var messagesCount = allMessages.length;
-              return BubbleSpecialThree(
-                text: message.content,
-                color: message.isUser
-                    ? Color.fromARGB(255, 175, 175, 175)
-                    : Color.fromARGB(255, 255, 255, 255),
-                tail: true,
-                isSender: message.isUser,
-                textStyle: TextStyle(
-                    color: const Color.fromARGB(255, 4, 4, 4), fontSize: 16),
-              );
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            child: allMessages.isEmpty
+                ? Center(child: Text("No messages yet."))
+                : ListView.separated(
+                    padding: const EdgeInsets.all(16),
+                    itemCount: allMessages.length,
+                    separatorBuilder: (context, index) =>
+                        const Divider(height: 24),
+                    itemBuilder: (context, index) {
+                      var message = allMessages[index];
+                      return BubbleSpecialThree(
+                        text: message.content,
+                        color: message.isUser
+                            ? Color.fromARGB(255, 175, 175, 175)
+                            : Color.fromARGB(255, 255, 255, 255),
+                        tail: true,
+                        isSender: message.isUser,
+                        textStyle: TextStyle(
+                            color: const Color.fromARGB(255, 4, 4, 4),
+                            fontSize: 16),
+                      );
+                    },
+                  ),
+          ),
+          MessageBar(
+            onSend: (value) {
+              if (value.trim().isNotEmpty) {
+                chatBotController.sendMessageToBot(value);
+              }
             },
           ),
-        ),
-        BubbleSpecialThree(
-          text: 'Added iMessage shape bubbles',
-          color: Color(0xFF1B97F3),
-          tail: false,
-          textStyle: TextStyle(color: Colors.white, fontSize: 16),
-        ),
-        BubbleSpecialThree(
-          text: "Thanks",
-          color: Color(0xFFE8E8EE),
-          tail: true,
-          isSender: false,
-        ),
-        MessageBar(
-          onSend: (value) {
-            if (value.trim().isNotEmpty) {
-              chatBotController.sendMessageToBot(value);
-              
-            }
-          },
-        ),
-      ]);
+        ],
+      );
     });
   }
 }

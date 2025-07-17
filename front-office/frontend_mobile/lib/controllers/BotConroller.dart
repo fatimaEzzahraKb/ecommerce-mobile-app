@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ChatBotController extends GetxController {
   var messages = [].obs;
   var answers = [].obs;
-  var allMessages = [].obs;
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   Future<void> getConversation() async {
@@ -22,7 +21,6 @@ class ChatBotController extends GetxController {
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         print(json['message']);
-        allMessages.value = json["allMessages"];
         messages.value =
             List<String>.from(json['messages'].map((msg) => msg['content']));
 
@@ -43,6 +41,11 @@ class ChatBotController extends GetxController {
       final SharedPreferences? prefs = await _prefs;
       int? user_id = await prefs?.getInt('user_id');
       var headers = {'Content-Type': "application/json"};
+
+      messages.add(messageContent);
+
+      answers.add("Typing...");
+
       var body = jsonEncode({'content': messageContent});
       var url = Uri.parse(ApiEndpoints.baseUrl +
           ApiEndpoints.chatBotEndPoints.sendMessage(user_id));
@@ -50,15 +53,11 @@ class ChatBotController extends GetxController {
           await http.post(url, headers: headers, body: body);
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        print(jsonResponse['answer']['content']);
-        final messageContent = jsonResponse['message'];
-        messages.add(messageContent["content"]);
-        final answerContent = jsonResponse['answer'];
-        answers.add(answerContent["content"]);
-        allMessages.add(messageContent);
-        allMessages.add(answerContent);
-
-        print("Bot Responded with:" + answerContent);
+        print(jsonResponse['response']);
+        answers.removeLast();
+        final answerContent = jsonResponse['response'];
+        answers.add(answerContent);
+        print("Bot Responded with: ${answerContent}");
       } else {
         final error = jsonDecode(response.body);
         throw error['message'] ?? error.toString();

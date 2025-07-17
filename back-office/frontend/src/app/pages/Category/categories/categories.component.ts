@@ -42,11 +42,11 @@ export class CategoriesComponent implements OnInit {
   }
   deleteCategory(id: number) {
     Swal.fire({
-      title: "Are you Sure?",
-      text: "You won't be able to revert the user!",
+      title: "Ête vous sûre ?",
+      text: "Vous ne pourrez pas retourner la catégorie!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonText: "Yes, delete it!"
+      confirmButtonText: "Oui, supprimer!"
     }).then((result) => {
       if (result.isConfirmed) {
         this.categorySrv.delete(id).subscribe(

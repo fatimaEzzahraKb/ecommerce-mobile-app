@@ -1,7 +1,7 @@
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule } from '@angular/platform-browser';      // IMPORTANT
 import { NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -25,12 +25,12 @@ import { CategoryAddComponent } from './pages/Category/category-add/category-add
 import { CategorieDetailsComponent } from './pages/Category/categorie-details/categorie-details.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { CommandesComponent } from './pages/Order/commandes/commandes.component';
-import { CartItemsComponent } from './pages/cart-items/cart-items.component';
 import { OrderDetailsComponent } from './pages/Order/order-details/order-details.component';
+import { UserProfileComponent } from './pages/user-profile/user-profile.component';
 
 @NgModule({
   imports: [
-    BrowserModule,            // Ajouté ici
+    BrowserModule,            
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
@@ -47,15 +47,13 @@ import { OrderDetailsComponent } from './pages/Order/order-details/order-details
     AuthLayoutComponent,
     ProductsComponent,
     UsersTableComponent,
-    LogInComponent,
     CategoriesComponent,
     UserDetailsComponent,
     CategoryAddComponent,
     CategorieDetailsComponent,
-  
+    UserProfileComponent,
     CommandesComponent,
   OrderDetailsComponent,
-    CartItemsComponent,
   ],
   providers: [
     DatePipe                 // Ici dans providers, si tu en as besoin en TS

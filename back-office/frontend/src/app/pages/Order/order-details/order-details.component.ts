@@ -17,7 +17,7 @@ export class OrderDetailsComponent implements OnInit {
 
     this.http.get(`http://localhost:3000/orders/details/${this.orderId}`).subscribe({
       next: (data: any) => {
-        this.order = data; // ✅ fixer ici
+        this.order = data; 
         console.log('Commande récupérée :', this.order);
       },
       error: (err) => console.error(err)
