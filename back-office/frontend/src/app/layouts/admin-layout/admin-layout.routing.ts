@@ -10,6 +10,7 @@ import { CategoryAddComponent } from 'src/app/pages/Category/category-add/catego
 import { CategorieDetailsComponent } from 'src/app/pages/Category/categorie-details/categorie-details.component';
 import { CommandesComponent } from 'src/app/pages/Order/commandes/commandes.component';
 import { OrderDetailsComponent } from 'src/app/pages/Order/order-details/order-details.component';
+import { SalesHistoryComponent } from 'src/app/pages/sales-history/sales-history.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -21,4 +22,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'categories/:id', component: CategorieDetailsComponent },
     { path: 'orders', component: CommandesComponent },
     { path: 'orders/:id', component: OrderDetailsComponent },
+    { path: 'sales_history', component: SalesHistoryComponent },
 ];

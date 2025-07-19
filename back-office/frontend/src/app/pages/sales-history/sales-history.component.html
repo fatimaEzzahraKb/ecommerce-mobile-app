@@ -23,6 +23,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr *ngIf="history.length===0">
+                                        <td colspan="7" class="text-center">Aucune données disponible.</td>
+                                    </tr>
                                     <tr *ngFor="let item of history; let i = index">
                                         <td>
                                             {{item.id}}
